@@ -38,6 +38,7 @@ func (a *App) MakeMemberCoach(s *discordgo.Session, i *discordgo.InteractionCrea
 	err = a.Database.AddPlayerType(team.TeamID, options[0].UserValue(a.Session).ID, database.Coach)
 	if err != nil {
 		discordutils.RespondWithError(s, i, "There was an error making the member a coach.")
+		utils.LogError("error making coach", err)
 		return
 	}
 

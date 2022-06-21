@@ -5,6 +5,7 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"hushclan.com/pkg/discordutils"
+	"hushclan.com/pkg/utils"
 	"hushclan.com/types"
 )
 
@@ -25,6 +26,7 @@ func (a *App) Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	err = a.Database.CreateMember(member)
 	if err != nil {
 		discordutils.RespondWithError(s, i, "Could not register.")
+		utils.LogError("could not register", err)
 		return
 	}
 

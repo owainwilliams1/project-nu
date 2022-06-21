@@ -1,9 +1,8 @@
 package discordutils
 
 import (
-	"log"
-
 	"github.com/bwmarrin/discordgo"
+	"hushclan.com/pkg/utils"
 )
 
 func RespondWithMessage(
@@ -19,7 +18,7 @@ func RespondWithMessage(
 		},
 	})
 	if err != nil {
-		log.Print("could not respond to command", err)
+		utils.LogError("could not respond to command", err)
 	}
 }
 
@@ -36,7 +35,7 @@ func RespondWithError(
 		},
 	})
 	if err != nil {
-		log.Print("could not respond to command", err)
+		utils.LogError("could not respond to command", err)
 	}
 }
 
@@ -54,6 +53,6 @@ func RespondWithEmbed(
 		},
 	})
 	if err != nil {
-		log.Print("could not respond to command", err)
+		utils.LogError("could not respond to command", err)
 	}
 }

@@ -31,6 +31,7 @@ func (a *App) RemoveMemberPlayer(s *discordgo.Session, i *discordgo.InteractionC
 	err = a.Database.AddPlayerType(team.TeamID, options[0].UserValue(a.Session).ID, database.Player)
 	if err != nil {
 		discordutils.RespondWithError(s, i, "There was an error removing the player.")
+		utils.LogError("error removing player", err)
 		return
 	}
 

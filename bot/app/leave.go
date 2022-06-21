@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/bwmarrin/discordgo"
 	"hushclan.com/pkg/discordutils"
+	"hushclan.com/pkg/utils"
 )
 
 func (a *App) Leave(s *discordgo.Session, i *discordgo.InteractionCreate) {
@@ -21,12 +22,14 @@ func (a *App) Leave(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	a.Database.RemoveTeamMember(member.Team, i.Member.User.ID)
 	if err != nil {
 		discordutils.RespondWithError(s, i, "There was an error leaving the team.")
+		utils.LogError("error leaving team", err)
 		return
 	}
 
 	a.Database.RemoveMemberTeam(i.Member.User.ID)
 	if err != nil {
 		discordutils.RespondWithError(s, i, "There was an error leaving the team.")
+		utils.LogError("error leaving team", err)
 		return
 	}
 

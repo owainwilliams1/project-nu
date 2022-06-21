@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/bwmarrin/discordgo"
 	"hushclan.com/pkg/discordutils"
+	"hushclan.com/pkg/utils"
 )
 
 func (a *App) DeleteTeam(s *discordgo.Session, i *discordgo.InteractionCreate) {
@@ -15,6 +16,7 @@ func (a *App) DeleteTeam(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	err = a.Database.DeleteTeam(team.TeamID)
 	if err != nil {
 		discordutils.RespondWithError(s, i, "There was an error deleting the team.")
+		utils.LogError("error deleting team", err)
 		return
 	}
 

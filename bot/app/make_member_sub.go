@@ -39,6 +39,7 @@ func (a *App) MakeMemberSub(s *discordgo.Session, i *discordgo.InteractionCreate
 		err = a.Database.RemovePlayerType(team.TeamID, options[0].UserValue(a.Session).ID, database.Player)
 		if err != nil {
 			discordutils.RespondWithError(s, i, "There was an error removing the member from player.")
+			utils.LogError("error removing player", err)
 			return
 		}
 	}
@@ -46,6 +47,7 @@ func (a *App) MakeMemberSub(s *discordgo.Session, i *discordgo.InteractionCreate
 	err = a.Database.AddPlayerType(team.TeamID, options[0].UserValue(a.Session).ID, database.Substitute)
 	if err != nil {
 		discordutils.RespondWithError(s, i, "There was an error making the member a sub.")
+		utils.LogError("error making sub", err)
 		return
 	}
 

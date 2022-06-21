@@ -25,6 +25,7 @@ func (a *App) InviteMember(s *discordgo.Session, i *discordgo.InteractionCreate)
 	err = a.Database.AddTeamMember(team.TeamID, options[0].UserValue(a.Session).ID)
 	if err != nil {
 		discordutils.RespondWithError(s, i, "There was an error inviting the user.")
+		utils.LogError("error inviting member", err)
 		return
 	}
 

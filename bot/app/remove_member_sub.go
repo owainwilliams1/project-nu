@@ -31,6 +31,7 @@ func (a *App) RemoveMemberSub(s *discordgo.Session, i *discordgo.InteractionCrea
 	err = a.Database.AddPlayerType(team.TeamID, options[0].UserValue(a.Session).ID, database.Substitute)
 	if err != nil {
 		discordutils.RespondWithError(s, i, "There was an error removing the sub.")
+		utils.LogError("error removing sub", err)
 		return
 	}
 

@@ -35,6 +35,7 @@ func (a *App) AcceptInvite(s *discordgo.Session, i *discordgo.InteractionCreate)
 	err = a.Database.AddMemberTeam(i.Member.User.ID, team.TeamID)
 	if err != nil {
 		discordutils.RespondWithError(s, i, "There was an error accepting this request.")
+		utils.LogError("error accepting request", err)
 		return
 	}
 

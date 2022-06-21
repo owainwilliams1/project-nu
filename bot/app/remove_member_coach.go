@@ -31,6 +31,7 @@ func (a *App) RemoveMemberCoach(s *discordgo.Session, i *discordgo.InteractionCr
 	err = a.Database.RemovePlayerType(team.TeamID, options[0].UserValue(a.Session).ID, database.Coach)
 	if err != nil {
 		discordutils.RespondWithError(s, i, "There was an error removing the coach.")
+		utils.LogError("error removing coach", err)
 		return
 	}
 
