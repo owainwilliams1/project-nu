@@ -1,9 +1,8 @@
 package app
 
 import (
-	"fmt"
-
 	"github.com/bwmarrin/discordgo"
+	"hushclan.com/pkg/responses"
 	"hushclan.com/pkg/utils"
 )
 
@@ -13,14 +12,13 @@ func (a *App) TeamInfo(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	teamID := utils.NameToID(options[0].StringValue())
 	team, err := a.Database.GetTeam(teamID)
 	if err != nil {
-		m := fmt.Sprintf("`%s` team does not exist.", options[0].StringValue())
-		a.RespondWithError(i, m)
+		a.RespondWithError(i, responses.NotFoundTeam, options[0].StringValue())
 		return
 	}
 
 	embed, err := a.TeamToEmbed(team)
 	if err != nil {
-		a.RespondWithError(i, "Error retrieving team.")
+		a.RespondWithError(i, responses.Unexpected)
 		a.Log.Error("error retrieving team", err)
 		return
 	}

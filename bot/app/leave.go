@@ -2,34 +2,35 @@ package app
 
 import (
 	"github.com/bwmarrin/discordgo"
+	"hushclan.com/pkg/responses"
 )
 
 func (a *App) Leave(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	member, err := a.Database.GetMember(i.Member.User.ID)
 	if err != nil || member.Team == "" {
-		a.RespondWithError(i, "You are not in a team.")
+		a.RespondWithError(i, responses.ForbiddenNotMember)
 		return
 	}
 
 	team, err := a.Database.GetTeam(member.Team)
 	if team.OwnerID == i.Member.User.ID {
-		a.RespondWithError(i, "You cannot leave your team, please transfer ownership first.")
+		a.RespondWithError(i, responses.ForbiddenOwnerAction)
 		return
 	}
 
 	a.Database.RemoveTeamMember(member.Team, i.Member.User.ID)
 	if err != nil {
-		a.RespondWithError(i, "There was an error leaving the team.")
+		a.RespondWithError(i, responses.Unexpected)
 		a.Log.Error("error leaving team", err)
 		return
 	}
 
 	a.Database.RemoveMemberTeam(i.Member.User.ID)
 	if err != nil {
-		a.RespondWithError(i, "There was an error leaving the team.")
+		a.RespondWithError(i, responses.Unexpected)
 		a.Log.Error("error leaving team", err)
 		return
 	}
 
-	a.RespondWithMessage(i, "Successfully left the team.")
+	a.RespondWithMessage(i, responses.Leave)
 }

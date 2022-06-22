@@ -40,3 +40,11 @@ func NameToID(s string) string {
 	o = strings.Replace(o, " ", "_", -1)
 	return o
 }
+
+func SAtoIA(s []string) []interface{} {
+	tmp := make([]interface{}, len(s))
+	for i, val := range s {
+		tmp[i] = val
+	}
+	return tmp
+}

@@ -24,19 +24,26 @@ var MaxSubs = 3
 var MaxPlayers = 5
 var MaxCoaches = 1
 
-func ValidateHexWithHashtag(s string) (int, bool) {
-	if len(s) != 7 {
-		return 0, false
+func ValidateHexHashtag(s string) (int, bool) {
+	if len(s) == 7 {
+		if s[0:1] != "#" {
+			return 0, false
+		}
+		hex := s[1:7]
+		n, err := strconv.ParseUint(hex, 16, 64)
+		if err != nil {
+			return 0, false
+		}
+		return int(n), true
 	}
-	if s[0:1] != "#" {
-		return 0, false
+	if len(s) == 6 {
+		n, err := strconv.ParseUint(s, 16, 64)
+		if err != nil {
+			return 0, false
+		}
+		return int(n), true
 	}
-	hex := s[1:7]
-	n, err := strconv.ParseUint(hex, 16, 64)
-	if err != nil {
-		return 0, false
-	}
-	return int(n), true
+	return 0, false
 }
 
 func ValidateTeamName(s string) bool {

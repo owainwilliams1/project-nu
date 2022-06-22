@@ -1,9 +1,8 @@
 package app
 
 import (
-	"fmt"
-
 	"github.com/bwmarrin/discordgo"
+	"hushclan.com/pkg/responses"
 	"hushclan.com/pkg/utils"
 )
 
@@ -12,22 +11,21 @@ func (a *App) InviteMember(s *discordgo.Session, i *discordgo.InteractionCreate)
 
 	team, err := a.Database.GetTeamByOwner(i.Member.User.ID)
 	if err != nil {
-		a.RespondWithError(i, "You are not in a team or you do not own the team.")
+		a.RespondWithError(i, responses.ForbiddenNotOwner)
 		return
 	}
 
 	if utils.ContainsString(team.Members, options[0].UserValue(a.Session).ID) {
-		a.RespondWithError(i, "User has already been invited to the team.")
+		a.RespondWithError(i, responses.ForbiddenAlreadyInvited, options[0].UserValue(a.Session).ID)
 		return
 	}
 
 	err = a.Database.AddTeamMember(team.TeamID, options[0].UserValue(a.Session).ID)
 	if err != nil {
-		a.RespondWithError(i, "There was an error inviting the user.")
+		a.RespondWithError(i, responses.Unexpected)
 		a.Log.Error("error inviting member", err)
 		return
 	}
 
-	m := fmt.Sprintf("Successfully invited <@%s>.", options[0].UserValue(a.Session).ID)
-	a.RespondWithMessage(i, m)
+	a.RespondWithMessage(i, responses.InviteMember, options[0].UserValue(a.Session).ID, team.TeamID)
 }

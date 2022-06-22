@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/bwmarrin/discordgo"
+	"hushclan.com/pkg/responses"
 )
 
 func (a *App) Leaderboard(s *discordgo.Session, i *discordgo.InteractionCreate) {
@@ -16,7 +17,7 @@ func (a *App) Leaderboard(s *discordgo.Session, i *discordgo.InteractionCreate) 
 
 	teams, err := a.Database.GetTeams(5, page)
 	if err != nil {
-		a.RespondWithError(i, "There are no teams.")
+		a.RespondWithError(i, responses.NotFoundTeams)
 		return
 	}
 

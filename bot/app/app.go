@@ -1,12 +1,15 @@
 package app
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
 	scm "github.com/ethanent/discordgo-scm"
 	api "hushclan.com/api/database"
 	"hushclan.com/api/logging"
+	"hushclan.com/pkg/responses"
+	"hushclan.com/pkg/utils"
 	"hushclan.com/types"
 )
 
@@ -68,13 +71,15 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 
 func (a *App) RespondWithMessage(
 	i *discordgo.InteractionCreate,
-	m string,
+	m responses.Success,
+	s ...string,
 ) {
+	opt := utils.SAtoIA(s)
 	err := a.Session.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
 		Data: &discordgo.InteractionResponseData{
 			TTS:     false,
-			Content: m,
+			Content: fmt.Sprintf(string(m), opt...),
 		},
 	})
 	if err != nil {
@@ -84,13 +89,15 @@ func (a *App) RespondWithMessage(
 
 func (a *App) RespondWithError(
 	i *discordgo.InteractionCreate,
-	m string,
+	m responses.Failure,
+	s ...string,
 ) {
+	opt := utils.SAtoIA(s)
 	err := a.Session.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseChannelMessageWithSource,
 		Data: &discordgo.InteractionResponseData{
 			TTS:     false,
-			Content: ":x: " + m,
+			Content: fmt.Sprintf(string(":x: "+m), opt...),
 		},
 	})
 	if err != nil {

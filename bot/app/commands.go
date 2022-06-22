@@ -25,7 +25,7 @@ func (a *App) PopulateSCM() {
 					{
 						Type:        discordgo.ApplicationCommandOptionString,
 						Name:        "color",
-						Description: "The team's color. Send a hex code e.g. #00BB77.",
+						Description: "A hex color code for the team.",
 						Required:    true,
 					},
 					{
