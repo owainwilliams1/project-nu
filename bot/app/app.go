@@ -31,7 +31,7 @@ type Vars struct {
 func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err error) {
 	embed = &discordgo.MessageEmbed{
 		Title:       team.TeamName,
-		Description: strings.Join([]string{team.Game, team.Sex, team.Region}, " / "),
+		Description: strings.Join([]string{team.Game, team.Sex, team.Region}, " "),
 	}
 
 	fields := []*discordgo.MessageEmbedField{}
@@ -47,7 +47,7 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 		}
 		fields = append(fields, &discordgo.MessageEmbedField{
 			Name:   discordUser.Username,
-			Value:  strings.Join(memberType, " / "),
+			Value:  strings.Join(memberType, ", "),
 			Inline: true,
 		})
 	}
@@ -61,7 +61,7 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 	}
 
 	embed.Footer = &discordgo.MessageEmbedFooter{
-		Text: team.TeamID,
+		Text: fmt.Sprintf("*Team ID: %s*", team.TeamID),
 	}
 
 	embed.Color = team.Color
