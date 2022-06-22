@@ -15,7 +15,7 @@ func (a *App) CreateTeam(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	options := i.ApplicationCommandData().Options
 
 	if !validators.ValidateTeamName(options[0].StringValue()) {
-		discordutils.RespondWithError(s, i, "Team names must have no spaces, cannot contain numbers and cannot be longer than 24 characters.")
+		discordutils.RespondWithError(s, i, "Team names must only contain letters and spaces. They cannot be longer than 24 characters.")
 		return
 	}
 
