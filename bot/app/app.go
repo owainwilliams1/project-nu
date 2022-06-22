@@ -61,7 +61,11 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 	}
 
 	embed.Footer = &discordgo.MessageEmbedFooter{
-		Text: fmt.Sprintf("*Team ID: %s*", team.TeamID),
+		Text: fmt.Sprintf("Team ID: %s", team.TeamID),
+	}
+
+	embed.Author = &discordgo.MessageEmbedAuthor{
+		Name: "Team",
 	}
 
 	embed.Color = team.Color
