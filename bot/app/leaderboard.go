@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/bwmarrin/discordgo"
-	"hushclan.com/pkg/discordutils"
 )
 
 func (a *App) Leaderboard(s *discordgo.Session, i *discordgo.InteractionCreate) {
@@ -17,7 +16,7 @@ func (a *App) Leaderboard(s *discordgo.Session, i *discordgo.InteractionCreate) 
 
 	teams, err := a.Database.GetTeams(5, page)
 	if err != nil {
-		discordutils.RespondWithError(s, i, "There are no teams.")
+		a.RespondWithError(i, "There are no teams.")
 		return
 	}
 
@@ -32,5 +31,5 @@ func (a *App) Leaderboard(s *discordgo.Session, i *discordgo.InteractionCreate) 
 		Title:  "Leaderboard",
 		Fields: fields,
 	}
-	discordutils.RespondWithEmbed(s, i, embed)
+	a.RespondWithEmbed(i, embed)
 }

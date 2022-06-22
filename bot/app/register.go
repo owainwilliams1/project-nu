@@ -4,8 +4,6 @@ import (
 	"fmt"
 
 	"github.com/bwmarrin/discordgo"
-	"hushclan.com/pkg/discordutils"
-	"hushclan.com/pkg/utils"
 	"hushclan.com/types"
 )
 
@@ -14,7 +12,7 @@ func (a *App) Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 	_, err := a.Database.GetMember(i.Member.User.ID)
 	if err == nil {
-		discordutils.RespondWithError(s, i, "You are already registered.")
+		a.RespondWithError(i, "You are already registered.")
 		return
 	}
 
@@ -25,11 +23,11 @@ func (a *App) Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 	err = a.Database.CreateMember(member)
 	if err != nil {
-		discordutils.RespondWithError(s, i, "Could not register.")
-		utils.LogError("could not register", err)
+		a.RespondWithError(i, "Could not register.")
+		a.Log.Error("could not register", err)
 		return
 	}
 
 	m := fmt.Sprintf("Welcome, you have been registered!")
-	discordutils.RespondWithMessage(s, i, m)
+	a.RespondWithMessage(i, m)
 }

@@ -31,9 +31,16 @@ func main() {
 	if app.Envs.Guild = os.Getenv("GUILD_ID"); app.Envs.Guild == "" {
 		log.Fatal("guild is not set")
 	}
-	if os.Getenv("PROJECT_ID") == "" {
+	if app.Envs.ProjectID = os.Getenv("PROJECT_ID"); app.Envs.ProjectID == "" {
 		log.Fatal("project id is not set")
 	}
+	if app.Envs.LogName = os.Getenv("LOG_NAME"); app.Envs.LogName == "" {
+		log.Fatal("project id is not set")
+	}
+
+	// creating logger
+
+	app.Log.NewLogger(app.Envs.ProjectID, app.Envs.LogName)
 
 	// connecting to database
 

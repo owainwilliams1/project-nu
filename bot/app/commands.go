@@ -5,7 +5,6 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	scm "github.com/ethanent/discordgo-scm"
-	"hushclan.com/pkg/utils"
 )
 
 func (a *App) PopulateSCM() {
@@ -293,6 +292,6 @@ func (a *App) RegisterCommands() {
 func (a *App) DeleteCommands() {
 	err := a.Manager.DeleteCommands(a.Session, a.Envs.Guild)
 	if err != nil {
-		utils.LogError("could not delete commands", err)
+		a.Log.Error("could not delete commands", err)
 	}
 }

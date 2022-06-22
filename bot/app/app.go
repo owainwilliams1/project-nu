@@ -6,6 +6,7 @@ import (
 	"github.com/bwmarrin/discordgo"
 	scm "github.com/ethanent/discordgo-scm"
 	api "hushclan.com/api/database"
+	"hushclan.com/api/logging"
 	"hushclan.com/types"
 )
 
@@ -13,12 +14,15 @@ type App struct {
 	Session  *discordgo.Session
 	Manager  *scm.SCM
 	Database *api.Database
+	Log      *logging.Log
 	Envs     Vars
 }
 
 type Vars struct {
-	Token string
-	Guild string
+	Token     string
+	Guild     string
+	ProjectID string
+	LogName   string
 }
 
 func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err error) {
@@ -60,4 +64,53 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 	embed.Color = team.Color
 
 	return
+}
+
+func (a *App) RespondWithMessage(
+	i *discordgo.InteractionCreate,
+	m string,
+) {
+	err := a.Session.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			TTS:     false,
+			Content: m,
+		},
+	})
+	if err != nil {
+		a.Log.Error("could not respond to command", err)
+	}
+}
+
+func (a *App) RespondWithError(
+	i *discordgo.InteractionCreate,
+	m string,
+) {
+	err := a.Session.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			TTS:     false,
+			Content: ":x: " + m,
+		},
+	})
+	if err != nil {
+		a.Log.Error("could not respond to command", err)
+	}
+}
+
+func (a *App) RespondWithEmbed(
+	i *discordgo.InteractionCreate,
+	e *discordgo.MessageEmbed,
+) {
+	err := a.Session.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+		Type: discordgo.InteractionResponseChannelMessageWithSource,
+		Data: &discordgo.InteractionResponseData{
+			TTS:     false,
+			Content: "",
+			Embeds:  []*discordgo.MessageEmbed{e},
+		},
+	})
+	if err != nil {
+		a.Log.Error("could not respond to command", err)
+	}
 }
