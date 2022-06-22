@@ -10,6 +10,7 @@ import (
 	scm "github.com/ethanent/discordgo-scm"
 	"github.com/joho/godotenv"
 	api "hushclan.com/api/database"
+	"hushclan.com/api/logging"
 	"hushclan.com/app"
 )
 
@@ -40,7 +41,7 @@ func main() {
 
 	// creating logger
 
-	app.Log.NewLogger(app.Envs.ProjectID, app.Envs.LogName)
+	app.Log = logging.NewLogger(app.Envs.ProjectID, app.Envs.LogName)
 
 	// connecting to database
 

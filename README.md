@@ -43,6 +43,7 @@ Create a .env file in `bot/` containing:
 ```
 GUILD_ID=
 PROJECT_ID=utility-ratio-353814
+LOG_NAME=DiscordBot
 ```
 
 Then to run the go files:

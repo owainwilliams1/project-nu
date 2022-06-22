@@ -12,14 +12,17 @@ type Log struct {
 	logger *glogger.Logger
 }
 
-func (l *Log) NewLogger(projectID string, logName string) {
+func NewLogger(projectID string, logName string) *Log {
 	client, err := glogger.NewClient(context.Background(), projectID)
 	if err != nil {
 		log.Fatalf("Failed to create client: %v", err)
 	}
 	defer client.Close()
 
-	l.logger = client.Logger(logName)
+	log := &Log{
+		logger: client.Logger(logName),
+	}
+	return log
 }
 
 func (l *Log) Info(m string) {
