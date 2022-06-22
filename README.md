@@ -41,13 +41,50 @@ export BOT_TOKEN=
 Create a .env file in `bot/` containing:
 
 ```
+BOT_TOKEN=
 GUILD_ID=
 PROJECT_ID=utility-ratio-353814
 LOG_NAME=DiscordBot
 ```
 
-Then to run the go files:
+Then to run the go files you must create a service:
+
+`sudo nano /etc/systemd/system/discordbot.service`
+```
+[Unit]
+Description=Discord Bot Go Service
+ConditionPathExists=/home/owain/project-nu/bot
+After=network.target
+[Service]
+Type=simple
+User=owain
+Group=owain
+WorkingDirectory=/home/owain/project-nu/bot
+ExecStart=/usr/bin/go run .
+Restart=on-failure
+RestartSec=10
+SyslogIdentifier=discordbotservice
+[Install]
+WantedBy=multi-user.target
+```
+
+Then run these commands to begin the service:
 
 ```
-go run .
+sudo systemctl daemon-reload &&
+sudo service discordbot start &&
+sudo service discordbot status &&
+sudo systemctl enable discordbot &&
+sudo systemctl start discordbot
+```
+
+Checking logs
+
+`journalctl -u discordbot -e`
+
+## Updating production
+
+```
+git pull
+sudo service discordbot restart
 ```
