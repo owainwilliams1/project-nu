@@ -7,8 +7,6 @@ import (
 type Team struct {
 	TeamID      string   `firestore:"-"`
 	OwnerID     string   `firestore:"owner_id"`
-	RoleID      string   `firestore:"role_id"`
-	CategoryID  string   `firestore:"category_id"`
 	Color       int      `firestore:"color"`
 	Members     []string `firestore:"members"`
 	Players     []string `firestore:"players"`

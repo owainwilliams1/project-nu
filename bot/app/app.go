@@ -48,7 +48,7 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 	embed.Fields = fields
 
 	if team.Icon != "" {
-		embed.Image = &discordgo.MessageEmbedImage{
+		embed.Thumbnail = &discordgo.MessageEmbedThumbnail{
 			URL: team.Icon,
 		}
 	}

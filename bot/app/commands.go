@@ -260,6 +260,22 @@ func (a *App) PopulateSCM() {
 				},
 			},
 		},
+		{
+			Type:    discordgo.InteractionApplicationCommand,
+			Handler: a.SetTeamIcon,
+			ApplicationCommand: &discordgo.ApplicationCommand{
+				Name:        "set-team-icon",
+				Description: "Set your team's icon.",
+				Options: []*discordgo.ApplicationCommandOption{
+					{
+						Type:        discordgo.ApplicationCommandOptionString,
+						Name:        "url",
+						Description: "The URL of the image you would like to use.",
+						Required:    true,
+					},
+				},
+			},
+		},
 	}
 
 	a.Manager.AddFeatures(features)

@@ -63,3 +63,8 @@ func ValidateSex(s string) (string, bool) {
 	}
 	return "", false
 }
+
+func ValidateURL(s string) bool {
+	r, _ := regexp.Compile(`[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)`)
+	return r.MatchString(s)
+}

@@ -86,6 +86,20 @@ func (d *Database) AddPlayerType(teamName, memberID string, memberType MemberTyp
 	return
 }
 
+func (d *Database) SetTeamIcon(teamName, url string) (err error) {
+	_, err = d.client.
+		Collection("teams").
+		Doc(teamName).
+		Update(d.ctx, []firestore.Update{
+			{
+				Path:  "icon",
+				Value: url,
+			},
+		})
+
+	return
+}
+
 func (d *Database) RemovePlayerType(teamName, memberID string, memberType MemberType) (err error) {
 	team, err := d.GetTeam(teamName)
 	if err != nil {
