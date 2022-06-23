@@ -7,8 +7,8 @@ import (
 	scm "github.com/ethanent/discordgo-scm"
 )
 
-func (a *App) PopulateSCM() {
-	features := []*scm.Feature{
+func (a *App) GetFeatures() []*scm.Feature {
+	return []*scm.Feature{
 		{
 			Type:    discordgo.InteractionApplicationCommand,
 			Handler: a.CreateTeam,
@@ -276,7 +276,10 @@ func (a *App) PopulateSCM() {
 			},
 		},
 	}
+}
 
+func (a *App) PopulateSCM() {
+	features := a.GetFeatures()
 	a.Manager.AddFeatures(features)
 }
 
@@ -290,7 +293,7 @@ func (a *App) RegisterCommands() {
 }
 
 func (a *App) DeleteCommands() {
-	err := a.Manager.DeleteCommands(a.Session, a.Envs.Guild)
+	err := a.Manager.DeleteCommands(a.Session, "")
 	if err != nil {
 		a.Log.Error("could not delete commands", err)
 	}

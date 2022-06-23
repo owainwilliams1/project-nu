@@ -60,5 +60,15 @@ func (a *App) CreateTeam(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		return
 	}
 
+	dmChannel, err := s.UserChannelCreate(i.Member.User.ID)
+	if err != nil {
+		a.Log.Error("could not create dm with user", err)
+	} else {
+		_, err = s.ChannelMessageSendEmbed(dmChannel.ID, a.TeamCreatedEmbed())
+		if err != nil {
+			a.Log.Error("could not send embed to user", err)
+		}
+	}
+
 	a.RespondWithMessage(i, responses.CreateTeam, team.TeamID)
 }
