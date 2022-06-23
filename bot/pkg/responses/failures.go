@@ -24,6 +24,7 @@ const (
 	ForbiddenAlreadyRegistered    Failure = "You have already registered."
 	NotFoundTeam                  Failure = "Team `%s` does not exist."
 	NotFoundTeams                 Failure = "There are currently no teams."
+	NotFoundUser                  Failure = "User <@%s> is not in this server."
 	Unexpected                    Failure = "An unexpected error has occured, please try again later. If the issue persists, please contact a developer."
 	ValidationTeamName            Failure = "Team names must only contain letters and spaces. They cannot be longer than 24 characters."
 	ValidationHex                 Failure = "`%s` is not a valid hex code. A hex code looks like `#00ff66`."
