@@ -22,10 +22,23 @@ func (a *App) InviteMember(s *discordgo.Session, i *discordgo.InteractionCreate)
 		return
 	}
 
+	messageGuild, err := s.Guild(i.GuildID)
+	if err != nil {
+		a.RespondWithError(i, responses.Unexpected)
+		a.Log.Error("guild not found", err)
+		return
+	}
+
 	dmChannel, err := s.UserChannelCreate(options[0].UserValue(a.Session).ID)
 	m := fmt.Sprintf("You have been invited to join team `%[1]s`, please type "+
-		"`/accept-invite %[1]s` in a server to join the team! You can view the team's info with"+
-		"`/team-info %[1]s`.", team.TeamID)
+		"`/accept-invite %[1]s` in %[2]s to join the team! You can view the team's info with"+
+		"`/team-info %[1]s`.", team.TeamID, messageGuild.Name)
+	if err != nil {
+		a.RespondWithError(i, responses.Unexpected)
+		a.Log.Error("could not create dm with user", err)
+		return
+	}
+
 	_, err = s.ChannelMessageSend(dmChannel.ID, m)
 	if err != nil {
 		a.RespondWithError(i, responses.NotFoundUser)
