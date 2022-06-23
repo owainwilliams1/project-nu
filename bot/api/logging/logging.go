@@ -3,41 +3,39 @@ package logging
 import (
 	"context"
 	"fmt"
-	"log"
 
 	glogger "cloud.google.com/go/logging"
 )
 
 type Log struct {
-	logger *glogger.Logger
+	Logger *glogger.Logger
 }
 
-func NewLogger(projectID string, logName string) *Log {
+func NewLogger(projectID string, logName string) (*Log, error) {
 	client, err := glogger.NewClient(context.Background(), projectID)
 	if err != nil {
-		log.Fatalf("Failed to create client: %v", err)
+		return nil, err
 	}
 	defer client.Close()
 
-	log := &Log{
-		logger: client.Logger(logName),
-	}
-	return log
+	return &Log{
+		Logger: client.Logger(logName),
+	}, nil
 }
 
 func (l *Log) Info(m string) {
-	lg := l.logger.StandardLogger(glogger.Info)
+	lg := l.Logger.StandardLogger(glogger.Info)
 	lg.Println(m)
 }
 
 func (l *Log) Error(m string, e error) {
-	lg := l.logger.StandardLogger(glogger.Error)
+	lg := l.Logger.StandardLogger(glogger.Error)
 	o := fmt.Sprintf("%s: %e", m, e)
 	lg.Println(o)
 }
 
 func (l *Log) Critical(m string, e error) {
-	lg := l.logger.StandardLogger(glogger.Critical)
+	lg := l.Logger.StandardLogger(glogger.Critical)
 
 	if e != nil {
 		o := fmt.Sprintf("%s: %e", m, e)

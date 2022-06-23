@@ -21,7 +21,7 @@ func main() {
 	// godotenv
 
 	if err := godotenv.Load(); err != nil {
-		log.Fatal("could not load env file", err)
+		log.Fatal("could not load env file: ", err)
 	}
 
 	// loading environment variables
@@ -41,20 +41,25 @@ func main() {
 
 	// creating logger
 
-	app.Log = logging.NewLogger(app.Envs.ProjectID, app.Envs.LogName)
+	app.Log, err = logging.NewLogger(app.Envs.ProjectID, app.Envs.LogName)
+	if err != nil {
+		log.Fatal("could not connect to logging: ", err)
+	}
 
 	// connecting to database
 
 	app.Database = &api.Database{}
 	if err := app.Database.Connect(); err != nil {
-		log.Fatal("could not connect to database")
+		app.Log.Critical("could not connect to database", err)
+		log.Fatal("could not connect to database: ", err)
 	}
 
 	// creating Discord session
 
 	app.Session, err = discordgo.New("Bot " + app.Envs.Token)
 	if err != nil {
-		log.Fatal("could not start discord session", err)
+		app.Log.Critical("could not start discord session", err)
+		log.Fatal("could not start discord session: ", err)
 	}
 
 	// creating slash commands manager
@@ -69,7 +74,8 @@ func main() {
 
 	err = app.Session.Open()
 	if err != nil {
-		log.Fatal("could not open connection", err)
+		app.Log.Critical("could not open connection", err)
+		log.Fatal("could not open connection: ", err)
 	}
 
 	// creating slash commands
@@ -78,7 +84,7 @@ func main() {
 
 	// await sysexit
 
-	app.Log.Info("Bot has started.")
+	app.Log.Info("bot has started")
 	log.Print("Bot is now running. Press CTRL-C to exit.")
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
