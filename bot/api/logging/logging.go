@@ -1,7 +1,6 @@
 package logging
 
 import (
-	"context"
 	"fmt"
 
 	glogger "cloud.google.com/go/logging"
@@ -9,18 +8,6 @@ import (
 
 type Log struct {
 	Logger *glogger.Logger
-}
-
-func NewLogger(projectID string, logName string) (*Log, error) {
-	client, err := glogger.NewClient(context.Background(), projectID)
-	if err != nil {
-		return nil, err
-	}
-	defer client.Close()
-
-	return &Log{
-		Logger: client.Logger(logName),
-	}, nil
 }
 
 func (l *Log) Info(m string) {

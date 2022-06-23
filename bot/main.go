@@ -1,11 +1,13 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 
+	glogger "cloud.google.com/go/logging"
 	"github.com/bwmarrin/discordgo"
 	scm "github.com/ethanent/discordgo-scm"
 	"github.com/joho/godotenv"
@@ -41,9 +43,14 @@ func main() {
 
 	// creating logger
 
-	app.Log, err = logging.NewLogger(app.Envs.ProjectID, app.Envs.LogName)
+	client, err := glogger.NewClient(context.Background(), app.Envs.ProjectID)
 	if err != nil {
 		log.Fatal("could not connect to logging: ", err)
+	}
+	defer client.Close()
+
+	app.Log = &logging.Log{
+		Logger: client.Logger(app.Envs.LogName),
 	}
 
 	// connecting to database
