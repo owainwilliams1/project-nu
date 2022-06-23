@@ -3,12 +3,13 @@ package utils
 import "strings"
 
 func RemoveArrayString(s []string, r string) []string {
-	for i, v := range s {
-		if v == r {
-			return append(s[:i], s[i+1:]...)
+	s2 := make([]string, 0, len(s))
+	for _, v := range s {
+		if v != r {
+			s2 = append(s2, v)
 		}
 	}
-	return s
+	return s2
 }
 
 func ContainsString(s []string, str string) bool {

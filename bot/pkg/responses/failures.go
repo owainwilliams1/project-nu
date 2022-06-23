@@ -7,7 +7,7 @@ const (
 	ForbiddenAlreadyMember        Failure = "You are already in a team."
 	ForbiddenNoInvite             Failure = "You are not invited to team `%s`."
 	ForbiddenTeamExists           Failure = "The team `%s` already exists."
-	ForbiddenNotOwner             Failure = "You do not own a team."
+	ForbiddenNotOwner             Failure = "You do not manage a team."
 	ForbiddenAlreadyInvited       Failure = "User <@%s> has already been invited to the team."
 	ForbiddenNotMember            Failure = "You are not in a team."
 	ForbiddenOwnerAction          Failure = "Please transfer ownership first with `/transfer-owner` or delete your team with `/delete-team`."
