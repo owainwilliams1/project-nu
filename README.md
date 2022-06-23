@@ -61,8 +61,6 @@ User=owain
 Group=owain
 WorkingDirectory=/home/owain/project-nu/bot
 ExecStart=/usr/bin/go run .
-Restart=on-failure
-RestartSec=10
 SyslogIdentifier=discordbotservice
 [Install]
 WantedBy=multi-user.target
