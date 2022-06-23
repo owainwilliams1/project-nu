@@ -283,7 +283,7 @@ func (a *App) PopulateSCM() {
 func (a *App) RegisterCommands() {
 	a.Session.AddHandler(a.Manager.HandleInteraction)
 
-	err := a.Manager.CreateCommands(a.Session, a.Envs.Guild)
+	err := a.Manager.CreateCommands(a.Session, "")
 	if err != nil {
 		log.Fatal("could not create commands", err)
 	}
