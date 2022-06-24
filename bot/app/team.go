@@ -20,7 +20,7 @@ func (a *App) Team(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		embed, err := a.TeamToEmbed(team)
 		if err != nil {
 			a.RespondWithError(i, responses.Unexpected)
-			a.Log.Error("error retrieving team embed", err)
+			a.Log.Error("error creating team embed", err)
 			return
 		}
 
@@ -36,15 +36,14 @@ func (a *App) Team(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 	team, err := a.Database.GetTeam(member.Team)
 	if err != nil {
-		a.RespondWithError(i, responses.Unexpected)
-		a.Log.Error("error retrieving team", err)
+		a.RespondWithError(i, responses.ForbiddenNotMember)
 		return
 	}
 
 	embed, err := a.TeamToEmbed(team)
 	if err != nil {
 		a.RespondWithError(i, responses.Unexpected)
-		a.Log.Error("error retrieving team embed", err)
+		a.Log.Error("error creating team embed", err)
 		return
 	}
 

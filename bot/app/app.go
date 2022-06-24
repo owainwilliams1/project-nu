@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
@@ -45,6 +46,7 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 		}
 
 		isMember := false
+		log.Print(memberData.Team, team.TeamID)
 		if memberData.Team == team.TeamID {
 			isMember = true
 		}
