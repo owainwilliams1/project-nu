@@ -17,4 +17,5 @@ const (
 	Register                Success = "Welcome, <@%s>, you have been registered!"
 	RemoveMember            Success = "Successfully removed <@%s> from the team."
 	SetTeamIcon             Success = "Successfully updated team icon."
+	TransferOwnership       Success = "Successfully made <@%s> the new Manager."
 )

@@ -375,3 +375,17 @@ func (d *Database) GetMember(memberID string) (member types.Member, err error) {
 
 	return
 }
+
+func (d *Database) TransferOwnership(teamName, newOwner string) (err error) {
+	_, err = d.client.
+		Collection("teams").
+		Doc(teamName).
+		Update(d.ctx, []firestore.Update{
+			{
+				Path:  "owner_id",
+				Value: newOwner,
+			},
+		})
+
+	return
+}
