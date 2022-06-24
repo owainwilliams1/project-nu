@@ -115,22 +115,6 @@ func (a *App) GetFeatures() []*scm.Feature {
 		},
 		{
 			Type:    discordgo.InteractionApplicationCommand,
-			Handler: a.TeamInfo,
-			ApplicationCommand: &discordgo.ApplicationCommand{
-				Name:        "team-info",
-				Description: "Get info on a team.",
-				Options: []*discordgo.ApplicationCommandOption{
-					{
-						Type:        discordgo.ApplicationCommandOptionString,
-						Name:        "team-id",
-						Description: "The ID of the team you wish to look up.",
-						Required:    true,
-					},
-				},
-			},
-		},
-		{
-			Type:    discordgo.InteractionApplicationCommand,
 			Handler: a.Leaderboard,
 			ApplicationCommand: &discordgo.ApplicationCommand{
 				Name:        "leaderboard",
@@ -151,14 +135,6 @@ func (a *App) GetFeatures() []*scm.Feature {
 			ApplicationCommand: &discordgo.ApplicationCommand{
 				Name:        "register",
 				Description: "Register yourself.",
-				Options: []*discordgo.ApplicationCommandOption{
-					{
-						Type:        discordgo.ApplicationCommandOptionString,
-						Name:        "username",
-						Description: "Valorant Username.",
-						Required:    true,
-					},
-				},
 			},
 		},
 		{

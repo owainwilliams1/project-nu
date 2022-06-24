@@ -76,8 +76,9 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 
 func (a *App) TeamCreatedEmbed() *discordgo.MessageEmbed {
 	return &discordgo.MessageEmbed{
-		Title:       "Welcome to team management!",
-		Description: "Here are a few commands to help you get started. For more commands use `/help`",
+		Title: "Welcome to team management!",
+		Description: "Here are a few commands to help you get started. For more commands use `/help`. " +
+			"Don't use these commands in DMs as they will not work",
 		Fields: []*discordgo.MessageEmbedField{
 			{
 				Name:  "/invite-member",
