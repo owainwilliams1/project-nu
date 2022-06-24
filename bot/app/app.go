@@ -66,6 +66,7 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 				Value:  memberType,
 				Inline: true,
 			})
+			continue
 		}
 
 		discordUser, err := a.Session.User(member)
@@ -107,7 +108,7 @@ func (a *App) TeamCreatedEmbed() *discordgo.MessageEmbed {
 			"Don't use these commands in DMs as they will not work",
 		Fields: []*discordgo.MessageEmbedField{
 			{
-				Name:  "/invite-member",
+				Name:  "/invite",
 				Value: "Invite a member to your team.",
 			},
 			{

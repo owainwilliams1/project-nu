@@ -39,5 +39,5 @@ func (a *App) TransferOwnership(s *discordgo.Session, i *discordgo.InteractionCr
 		return
 	}
 
-	a.RespondWithMessage(i, responses.TransferOwnership)
+	a.RespondWithMessage(i, responses.TransferOwnership, options[0].UserValue(a.Session).ID)
 }
