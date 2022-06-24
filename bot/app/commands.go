@@ -110,7 +110,15 @@ func (a *App) GetFeatures() []*scm.Feature {
 			Handler: a.Team,
 			ApplicationCommand: &discordgo.ApplicationCommand{
 				Name:        "team",
-				Description: "Get your team's info. You must be in a team to do this.",
+				Description: "Get your team's info or another team's.",
+				Options: []*discordgo.ApplicationCommandOption{
+					{
+						Type:        discordgo.ApplicationCommandOptionString,
+						Name:        "team-name",
+						Description: "The name of the team you would like to view.",
+						Required:    false,
+					},
+				},
 			},
 		},
 		{
