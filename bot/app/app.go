@@ -51,7 +51,7 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 
 		memberDesc := ""
 		if isMember {
-			if memberType != nil {
+			if len(memberType) > 0 {
 				memberDesc = strings.Join(memberType, ", ")
 			} else {
 				memberDesc = "Member"

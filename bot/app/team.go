@@ -1,8 +1,6 @@
 package app
 
 import (
-	"log"
-
 	"github.com/bwmarrin/discordgo"
 	"hushclan.com/pkg/responses"
 	"hushclan.com/pkg/utils"
@@ -10,8 +8,6 @@ import (
 
 func (a *App) Team(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	options := i.ApplicationCommandData().Options
-
-	log.Print(options)
 
 	if len(options) > 0 {
 		teamID := utils.NameToID(options[0].StringValue())
