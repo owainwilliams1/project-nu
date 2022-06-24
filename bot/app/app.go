@@ -37,7 +37,7 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 
 	fields := []*discordgo.MessageEmbedField{}
 	for _, member := range team.Members {
-		memberType, hasType := team.GetMemberType(member)
+		memberType := team.GetMemberType(member)
 
 		memberData, err := a.Database.GetMember(member)
 		if err != nil {
@@ -47,35 +47,22 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 		isMember := false
 		if memberData.Team == team.TeamID {
 			isMember = true
-			memberType = append(memberType, "**Invited**")
 		}
 
-		if !hasType {
-			discordUser, err := a.Session.User(member)
-			if err != nil {
-				return nil, err
-			}
-			memberDesc := ""
-			if isMember {
-				memberDesc = "Member"
+		memberDesc := ""
+		if isMember {
+			if memberType != nil {
+				memberDesc = strings.Join(memberType, ", ")
 			} else {
-				memberDesc = "Member, **Invited**"
+				memberDesc = "Member"
 			}
-			fields = append(fields, &discordgo.MessageEmbedField{
-				Name:   discordUser.Username,
-				Value:  memberDesc,
-				Inline: true,
-			})
-			continue
+		} else {
+			memberDesc = "Invited"
 		}
 
-		discordUser, err := a.Session.User(member)
-		if err != nil {
-			return nil, err
-		}
 		fields = append(fields, &discordgo.MessageEmbedField{
-			Name:   discordUser.Username,
-			Value:  strings.Join(memberType, ", "),
+			Name:   memberDesc,
+			Value:  fmt.Sprintf("<@%s>", member),
 			Inline: true,
 		})
 	}

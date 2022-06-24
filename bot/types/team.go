@@ -20,29 +20,24 @@ type Team struct {
 	Sex         string   `firestore:"sex"`
 }
 
-func (t Team) GetMemberType(memberID string) ([]string, bool) {
+func (t Team) GetMemberType(memberID string) []string {
 	memberType := []string{}
-	hasType := false
 
 	if memberID == t.OwnerID {
-		hasType = true
 		memberType = append(memberType, "Manager")
 	}
 
 	if utils.ContainsString(t.Players, memberID) {
-		hasType = true
 		memberType = append(memberType, "Player")
 	}
 
 	if utils.ContainsString(t.Substitutes, memberID) {
-		hasType = true
 		memberType = append(memberType, "Sub")
 	}
 
 	if utils.ContainsString(t.Coaches, memberID) {
-		hasType = true
 		memberType = append(memberType, "Coach")
 	}
 
-	return memberType, hasType
+	return memberType
 }
