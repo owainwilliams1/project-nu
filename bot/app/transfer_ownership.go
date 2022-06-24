@@ -20,6 +20,18 @@ func (a *App) TransferOwnership(s *discordgo.Session, i *discordgo.InteractionCr
 		return
 	}
 
+	member, err := a.Database.GetMember(options[0].UserValue(a.Session).ID)
+	if err != nil {
+		a.RespondWithError(i, responses.Unexpected)
+		a.Log.Error("could not find member", err)
+		return
+	}
+
+	if member.Team != team.TeamID {
+		a.RespondWithError(i, responses.ForbiddenUserNotJoined)
+		return
+	}
+
 	err = a.Database.TransferOwnership(team.TeamID, options[0].UserValue(a.Session).ID)
 	if err != nil {
 		a.RespondWithError(i, responses.Unexpected)

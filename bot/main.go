@@ -16,12 +16,6 @@ import (
 	"hushclan.com/app"
 )
 
-// Add invites as a separate array or fix member issues
-// OR create MemberInTeamAccepted function
-
-// Remove registration as a requirement and have
-// MatchValorantAccount as a new command
-
 func main() {
 	app := &app.App{}
 	var err error
