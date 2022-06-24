@@ -77,17 +77,20 @@ func main() {
 
 	app.PopulateSCM()
 
-	// handling on join and registering commands
-
-	app.Session.AddHandler(app.HandleGuildJoin)
-	app.Session.AddHandler(app.HandleGuildLeave)
-
 	// start the Discord session
 
 	err = app.Session.Open()
 	if err != nil {
 		app.Log.Critical("could not open connection", err)
 		log.Fatal("could not open connection: ", err)
+	}
+
+	// registering commands
+
+	err = app.Manager.CreateCommands(app.Session, "")
+	if err != nil {
+		app.Log.Critical("could not register commands", err)
+		log.Fatal("could not register commands: ", err)
 	}
 
 	// await sysexit
@@ -97,6 +100,14 @@ func main() {
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
 	<-sc
+
+	// deleting commands
+
+	err = app.Manager.DeleteCommands(app.Session, "")
+	if err != nil {
+		app.Log.Critical("could not delete commands", err)
+		log.Fatal("could not delete commands: ", err)
+	}
 
 	// cleanly close down the Discord session
 

@@ -1,9 +1,6 @@
 package app
 
 import (
-	"fmt"
-	"log"
-
 	"github.com/bwmarrin/discordgo"
 	scm "github.com/ethanent/discordgo-scm"
 )
@@ -298,22 +295,4 @@ func (a *App) GetFeatures() []*scm.Feature {
 func (a *App) PopulateSCM() {
 	features := a.GetFeatures()
 	a.Manager.AddFeatures(features)
-}
-
-func (a *App) RegisterCommands(guildID string) {
-	a.Session.AddHandler(a.Manager.HandleInteraction)
-
-	err := a.Manager.CreateCommands(a.Session, guildID)
-	if err != nil {
-		m := fmt.Sprintf("could not create commands for %s", guildID)
-		log.Fatal(m, err)
-	}
-}
-
-func (a *App) DeleteCommands(guildID string) {
-	err := a.Manager.DeleteCommands(a.Session, guildID)
-	if err != nil {
-		m := fmt.Sprintf("could not delete commands for %s", guildID)
-		a.Log.Error(m, err)
-	}
 }
