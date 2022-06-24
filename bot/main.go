@@ -92,6 +92,7 @@ func main() {
 		app.Log.Critical("could not register commands", err)
 		log.Fatal("could not register commands: ", err)
 	}
+	app.Session.AddHandler(app.Manager.HandleInteraction)
 
 	// await sysexit
 
