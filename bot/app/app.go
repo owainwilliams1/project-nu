@@ -55,15 +55,15 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 			if err != nil {
 				return nil, err
 			}
-			memberType := ""
+			memberDesc := ""
 			if isMember {
-				memberType = "Member"
+				memberDesc = "Member"
 			} else {
-				memberType = "Member, **Invited**"
+				memberDesc = "Member, **Invited**"
 			}
 			fields = append(fields, &discordgo.MessageEmbedField{
 				Name:   discordUser.Username,
-				Value:  memberType,
+				Value:  memberDesc,
 				Inline: true,
 			})
 			continue
