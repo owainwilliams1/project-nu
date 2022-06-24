@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/bwmarrin/discordgo"
+	"hushclan.com/pkg/responses"
 )
 
 func (a *App) Help(s *discordgo.Session, i *discordgo.InteractionCreate) {
@@ -18,11 +19,25 @@ func (a *App) Help(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		page = int(options[0].IntValue()) - 1
 	}
 
+	features := a.GetFeatures()
+	totalLen := len(features)
+
 	pageSize := 5
 	start := pageSize * page
-	end := pageSize*page + pageSize
 
-	features := a.GetFeatures()
+	if start > totalLen {
+		a.RespondWithError(i, responses.ForbiddenPageOutOfRange)
+		return
+	}
+
+	left := totalLen - start
+	var end int
+	if left > pageSize {
+		end = pageSize*page + pageSize
+	} else {
+		end = pageSize*page + left
+	}
+
 	featuresSub := features[start:end]
 	for _, feature := range featuresSub {
 		e.Fields = append(e.Fields, &discordgo.MessageEmbedField{
@@ -31,7 +46,7 @@ func (a *App) Help(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		})
 	}
 
-	totalPages := len(features) / 5
+	totalPages := totalLen / 5
 	if r := totalPages % 1; r > 0 {
 		totalPages -= r
 		totalPages += 1

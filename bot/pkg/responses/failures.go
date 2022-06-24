@@ -22,6 +22,7 @@ const (
 	ForbiddenAlreadyNotPlayer     Failure = "Member is already not a player."
 	ForbiddenAlreadyNotSubstitute Failure = "Member is already not a substitute."
 	ForbiddenAlreadyRegistered    Failure = "You have already registered."
+	ForbiddenPageOutOfRange       Failure = "The page you have selected does not exist."
 	NotFoundTeam                  Failure = "Team `%s` does not exist."
 	NotFoundTeams                 Failure = "There are currently no teams."
 	NotFoundUser                  Failure = "User <@%s> is not in this server."
