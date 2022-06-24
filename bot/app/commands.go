@@ -277,7 +277,7 @@ func (a *App) GetFeatures() []*scm.Feature {
 		},
 		{
 			Type:    discordgo.InteractionApplicationCommand,
-			Handler: a.SetTeamIcon,
+			Handler: a.Help,
 			ApplicationCommand: &discordgo.ApplicationCommand{
 				Name:        "help",
 				Description: "Get some help.",
