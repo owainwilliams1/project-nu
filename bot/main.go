@@ -80,6 +80,7 @@ func main() {
 	// handling on join and registering commands
 
 	app.Session.AddHandler(app.HandleGuildJoin)
+	app.Session.AddHandler(app.HandleGuildLeave)
 
 	// start the Discord session
 
@@ -98,8 +99,6 @@ func main() {
 	<-sc
 
 	// cleanly close down the Discord session
-
-	app.DeleteCommands()
 
 	app.Session.Close()
 }

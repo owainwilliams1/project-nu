@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/bwmarrin/discordgo"
@@ -304,13 +305,15 @@ func (a *App) RegisterCommands(guildID string) {
 
 	err := a.Manager.CreateCommands(a.Session, guildID)
 	if err != nil {
-		log.Fatal("could not create commands", err)
+		m := fmt.Sprintf("could not create commands for %s", guildID)
+		log.Fatal(m, err)
 	}
 }
 
-func (a *App) DeleteCommands() {
-	err := a.Manager.DeleteCommands(a.Session, "")
+func (a *App) DeleteCommands(guildID string) {
+	err := a.Manager.DeleteCommands(a.Session, guildID)
 	if err != nil {
-		a.Log.Error("could not delete commands", err)
+		m := fmt.Sprintf("could not delete commands for %s", guildID)
+		a.Log.Error(m, err)
 	}
 }
