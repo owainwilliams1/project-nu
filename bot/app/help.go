@@ -40,4 +40,6 @@ func (a *App) Help(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	e.Footer = &discordgo.MessageEmbedFooter{
 		Text: fmt.Sprintf("Page %d/%d", page+1, totalPages),
 	}
+
+	a.RespondWithEmbed(i, e)
 }
