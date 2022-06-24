@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/bwmarrin/discordgo"
@@ -276,6 +275,22 @@ func (a *App) GetFeatures() []*scm.Feature {
 				},
 			},
 		},
+		{
+			Type:    discordgo.InteractionApplicationCommand,
+			Handler: a.SetTeamIcon,
+			ApplicationCommand: &discordgo.ApplicationCommand{
+				Name:        "help",
+				Description: "Get some help.",
+				Options: []*discordgo.ApplicationCommandOption{
+					{
+						Type:        discordgo.ApplicationCommandOptionInteger,
+						Name:        "page",
+						Description: "The help page you would like to view.",
+						Required:    false,
+					},
+				},
+			},
+		},
 	}
 }
 
@@ -294,11 +309,8 @@ func (a *App) RegisterCommands(guildID string) {
 }
 
 func (a *App) DeleteCommands() {
-	for _, guildID := range a.JoinedGuilds {
-		err := a.Manager.DeleteCommands(a.Session, guildID)
-		if err != nil {
-			m := fmt.Sprintf("could not delete commands for server %s", guildID)
-			a.Log.Error(m, err)
-		}
+	err := a.Manager.DeleteCommands(a.Session, "")
+	if err != nil {
+		a.Log.Error("could not delete commands", err)
 	}
 }
