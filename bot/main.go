@@ -77,6 +77,10 @@ func main() {
 
 	app.PopulateSCM()
 
+	// handling on join and registering commands
+
+	app.Session.AddHandler(app.HandleGuildJoin)
+
 	// start the Discord session
 
 	err = app.Session.Open()
@@ -84,10 +88,6 @@ func main() {
 		app.Log.Critical("could not open connection", err)
 		log.Fatal("could not open connection: ", err)
 	}
-
-	// creating slash commands
-
-	app.RegisterCommands()
 
 	// await sysexit
 

@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/bwmarrin/discordgo"
@@ -283,18 +284,21 @@ func (a *App) PopulateSCM() {
 	a.Manager.AddFeatures(features)
 }
 
-func (a *App) RegisterCommands() {
+func (a *App) RegisterCommands(guildID string) {
 	a.Session.AddHandler(a.Manager.HandleInteraction)
 
-	err := a.Manager.CreateCommands(a.Session, "")
+	err := a.Manager.CreateCommands(a.Session, guildID)
 	if err != nil {
 		log.Fatal("could not create commands", err)
 	}
 }
 
 func (a *App) DeleteCommands() {
-	err := a.Manager.DeleteCommands(a.Session, "")
-	if err != nil {
-		a.Log.Error("could not delete commands", err)
+	for _, guildID := range a.JoinedGuilds {
+		err := a.Manager.DeleteCommands(a.Session, guildID)
+		if err != nil {
+			m := fmt.Sprintf("could not delete commands for server %s", guildID)
+			a.Log.Error(m, err)
+		}
 	}
 }

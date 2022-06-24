@@ -14,11 +14,12 @@ import (
 )
 
 type App struct {
-	Session  *discordgo.Session
-	Manager  *scm.SCM
-	Database *api.Database
-	Log      *logging.Log
-	Envs     Vars
+	Session      *discordgo.Session
+	Manager      *scm.SCM
+	Database     *api.Database
+	Log          *logging.Log
+	Envs         Vars
+	JoinedGuilds []string
 }
 
 type Vars struct {
