@@ -9,7 +9,7 @@ import (
 func (a *App) Team(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	options := i.ApplicationCommandData().Options
 
-	if options != nil {
+	if len(options) > 0 {
 		teamID := utils.NameToID(options[0].StringValue())
 		team, err := a.Database.GetTeam(teamID)
 		if err != nil {
