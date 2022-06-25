@@ -32,6 +32,17 @@ func (a *App) MakeMemberSub(s *discordgo.Session, i *discordgo.InteractionCreate
 		return
 	}
 
+	member, err := a.Database.GetMember(options[0].UserValue(a.Session).ID)
+	if err != nil {
+		a.RespondWithError(i, responses.ForbiddenUserNotJoined)
+		return
+	}
+
+	if member.Team != team.TeamID {
+		a.RespondWithError(i, responses.ForbiddenUserNotJoined)
+		return
+	}
+
 	if utils.ContainsString(team.Players, options[0].UserValue(a.Session).ID) {
 		err = a.Database.RemovePlayerType(team.TeamID, options[0].UserValue(a.Session).ID, database.Player)
 		if err != nil {

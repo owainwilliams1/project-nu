@@ -32,6 +32,17 @@ func (a *App) MakeMemberCoach(s *discordgo.Session, i *discordgo.InteractionCrea
 		return
 	}
 
+	member, err := a.Database.GetMember(options[0].UserValue(a.Session).ID)
+	if err != nil {
+		a.RespondWithError(i, responses.ForbiddenUserNotJoined)
+		return
+	}
+
+	if member.Team != team.TeamID {
+		a.RespondWithError(i, responses.ForbiddenUserNotJoined)
+		return
+	}
+
 	err = a.Database.AddPlayerType(team.TeamID, options[0].UserValue(a.Session).ID, database.Coach)
 	if err != nil {
 		a.RespondWithError(i, responses.Unexpected)
