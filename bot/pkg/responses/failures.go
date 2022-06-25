@@ -3,7 +3,7 @@ package responses
 type Failure string
 
 const (
-	RequireRegistration           Failure = "You need to use `/register` first."
+	RequireRegistration           Failure = "You need to `/register` first."
 	ForbiddenAlreadyMember        Failure = "You are already in a team."
 	ForbiddenNoInvite             Failure = "You are not invited to team `%s`."
 	ForbiddenTeamExists           Failure = "The team `%s` already exists."
