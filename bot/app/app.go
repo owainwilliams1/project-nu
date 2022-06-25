@@ -39,13 +39,18 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 	fields := []*discordgo.MessageEmbedField{}
 	for _, member := range team.Members {
 		memberType := team.GetMemberType(member)
-		memberData, err := a.Database.GetMember(member)
-		if err != nil {
-			return nil, errors.New("could not get member data")
-		}
 		discordUser, err := a.Session.User(member)
 		if err != nil {
 			return nil, errors.New("could not get discord user")
+		}
+		memberData, err := a.Database.GetMember(member)
+		if err != nil {
+			fields = append(fields, &discordgo.MessageEmbedField{
+				Name:   discordUser.Username,
+				Value:  "**Invited**",
+				Inline: true,
+			})
+			continue
 		}
 
 		if memberData.Team != team.TeamID {

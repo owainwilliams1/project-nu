@@ -259,6 +259,22 @@ func (a *App) GetFeatures() []*scm.Feature {
 		},
 		{
 			Type:    discordgo.InteractionApplicationCommand,
+			Handler: a.SetTeamIcon,
+			ApplicationCommand: &discordgo.ApplicationCommand{
+				Name:        "transfer-ownership",
+				Description: "Transfer ownership of your team.",
+				Options: []*discordgo.ApplicationCommandOption{
+					{
+						Type:        discordgo.ApplicationCommandOptionUser,
+						Name:        "user",
+						Description: "The user you want to make .",
+						Required:    true,
+					},
+				},
+			},
+		},
+		{
+			Type:    discordgo.InteractionApplicationCommand,
 			Handler: a.Help,
 			ApplicationCommand: &discordgo.ApplicationCommand{
 				Name:        "help",
