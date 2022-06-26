@@ -1,6 +1,8 @@
 package app
 
 import (
+	"log"
+
 	"github.com/bwmarrin/discordgo"
 	scm "github.com/ethanent/discordgo-scm"
 )
@@ -434,7 +436,8 @@ func (a *App) GetFeatures() []*scm.Feature {
 
 func (a *App) TeamRouter(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	options := i.ApplicationCommandData().Options
-	subcommand := options[0].StringValue()
+	subcommand := options[0].Value
+	log.Print(subcommand)
 	o := options[1:]
 	switch subcommand {
 	case "create":
