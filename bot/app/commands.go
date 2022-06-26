@@ -418,12 +418,16 @@ func (a *App) TeamRouter(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	switch subcommand {
 	case "create":
 		a.TeamCreate(s, i, args)
+		return
 	case "info":
 		a.TeamInfo(s, i, args)
+		return
 	case "accept":
 		a.TeamAccept(s, i, args)
+		return
 	case "leave":
 		a.TeamLeave(s, i, args)
+		return
 	default:
 		a.RespondWithError(i, "That is not a subcommand.")
 	}
@@ -436,18 +440,25 @@ func (a *App) ManageRouter(s *discordgo.Session, i *discordgo.InteractionCreate)
 	switch subcommand {
 	case "delete":
 		a.ManageDelete(s, i, args)
+		return
 	case "transfer-ownership":
 		a.ManageTransferOwnership(s, i, args)
+		return
 	case "set-icon":
 		a.ManageSetIcon(s, i, args)
+		return
 	case "invite":
 		a.ManageInvite(s, i, args)
+		return
 	case "kick":
 		a.ManageKick(s, i, args)
+		return
 	case "add":
 		a.ManageAddRouter(s, i, args)
+		return
 	case "remove":
 		a.ManageRemoveRouter(s, i, args)
+		return
 	default:
 		a.RespondWithError(i, "That is not a subcommand.")
 	}
@@ -459,11 +470,14 @@ func (a *App) UsernameRouter(s *discordgo.Session, i *discordgo.InteractionCreat
 	args := options[0].Options
 	switch subcommand {
 	case "project-nu":
-		a.ManageDelete(s, i, args)
+		a.UsernameProjectNu(s, i, args)
+		return
 	case "valorant":
-		a.ManageTransferOwnership(s, i, args)
+		a.UsernameValorant(s, i, args)
+		return
 	case "apex-legends":
-		a.ManageSetIcon(s, i, args)
+		a.UsernameApex(s, i, args)
+		return
 	default:
 		a.RespondWithError(i, "That is not a subcommand.")
 	}
@@ -479,10 +493,13 @@ func (a *App) ManageAddRouter(
 	switch subcommand {
 	case "player":
 		a.ManageAddPlayer(s, i, args)
+		return
 	case "sub":
 		a.ManageAddSub(s, i, args)
+		return
 	case "coach":
 		a.ManageAddCoach(s, i, args)
+		return
 	default:
 		a.RespondWithError(i, "That is not a subcommand.")
 	}
@@ -498,10 +515,13 @@ func (a *App) ManageRemoveRouter(
 	switch subcommand {
 	case "player":
 		a.ManageRemovePlayer(s, i, args)
+		return
 	case "sub":
 		a.ManageRemoveSub(s, i, args)
+		return
 	case "coach":
 		a.ManageRemoveCoach(s, i, args)
+		return
 	default:
 		a.RespondWithError(i, "That is not a subcommand.")
 	}
