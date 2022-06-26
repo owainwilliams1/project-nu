@@ -391,13 +391,8 @@ func (d *Database) TransferOwnership(teamName, newOwner string) (err error) {
 
 func (d *Database) SetUsername(memberID string, username string, usernameType UsernameType) (err error) {
 	memberDoc := d.client.
-		Collection("teams").
+		Collection("members").
 		Doc(memberID)
-
-	_, err = memberDoc.Get(d.ctx)
-	if err != nil {
-		return err
-	}
 
 	switch usernameType {
 	case ProjectNu:
