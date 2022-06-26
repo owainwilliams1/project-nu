@@ -358,6 +358,7 @@ func (a *App) GetFeatures() []*scm.Feature {
 				Description: "Register yourself.",
 				Options: []*discordgo.ApplicationCommandOption{
 					{
+						Type:        discordgo.ApplicationCommandOptionString,
 						Name:        "username",
 						Description: "The username you would like to use on Project Nu.",
 						Required:    true,
