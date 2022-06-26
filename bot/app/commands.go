@@ -383,8 +383,8 @@ func (a *App) GetFeatures() []*scm.Feature {
 				Options: []*discordgo.ApplicationCommandOption{
 					{
 						Type:        discordgo.ApplicationCommandOptionString,
-						Name:        "page",
-						Description: "The help page you would like to view.",
+						Name:        "command",
+						Description: "The command you need help with.",
 						Choices: []*discordgo.ApplicationCommandOptionChoice{
 							{
 								Name:  "General",
