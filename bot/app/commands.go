@@ -403,7 +403,7 @@ func (a *App) GetFeatures() []*scm.Feature {
 								Value: "username",
 							},
 						},
-						Required: false,
+						Required: true,
 					},
 				},
 			},
