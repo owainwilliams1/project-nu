@@ -400,22 +400,22 @@ func (d *Database) SetUsername(memberID string, username string, usernameType Us
 	}
 
 	switch usernameType {
-	case "project-nu":
-		_, err = memberDoc.Set(d.ctx, []firestore.Update{
+	case ProjectNu:
+		_, err = memberDoc.Update(d.ctx, []firestore.Update{
 			{
 				Path:  "username",
 				Value: username,
 			},
 		})
-	case "valorant":
-		_, err = memberDoc.Set(d.ctx, []firestore.Update{
+	case Valorant:
+		_, err = memberDoc.Update(d.ctx, []firestore.Update{
 			{
 				Path:  "valorant_username",
 				Value: username,
 			},
 		})
-	case "apex-legends":
-		_, err = memberDoc.Set(d.ctx, []firestore.Update{
+	case ApexLegends:
+		_, err = memberDoc.Update(d.ctx, []firestore.Update{
 			{
 				Path:  "apex_username",
 				Value: username,
