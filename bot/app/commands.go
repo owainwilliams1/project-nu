@@ -314,7 +314,7 @@ func (a *App) GetFeatures() []*scm.Feature {
 						Description: "Set your Project Nu username.",
 						Options: []*discordgo.ApplicationCommandOption{
 							{
-								Type:        discordgo.ApplicationCommandOptionUser,
+								Type:        discordgo.ApplicationCommandOptionString,
 								Name:        "username",
 								Description: "The username you would like to have set.",
 								Required:    true,
@@ -327,7 +327,7 @@ func (a *App) GetFeatures() []*scm.Feature {
 						Description: "Set your Valorant username.",
 						Options: []*discordgo.ApplicationCommandOption{
 							{
-								Type:        discordgo.ApplicationCommandOptionUser,
+								Type:        discordgo.ApplicationCommandOptionString,
 								Name:        "username",
 								Description: "The username you would like to have set.",
 								Required:    true,
@@ -340,7 +340,7 @@ func (a *App) GetFeatures() []*scm.Feature {
 						Description: "Set your Apex username.",
 						Options: []*discordgo.ApplicationCommandOption{
 							{
-								Type:        discordgo.ApplicationCommandOptionUser,
+								Type:        discordgo.ApplicationCommandOptionString,
 								Name:        "username",
 								Description: "The username you would like to have set.",
 								Required:    true,
@@ -382,10 +382,28 @@ func (a *App) GetFeatures() []*scm.Feature {
 				Description: "Get some help.",
 				Options: []*discordgo.ApplicationCommandOption{
 					{
-						Type:        discordgo.ApplicationCommandOptionInteger,
+						Type:        discordgo.ApplicationCommandOptionString,
 						Name:        "page",
 						Description: "The help page you would like to view.",
-						Required:    false,
+						Choices: []*discordgo.ApplicationCommandOptionChoice{
+							{
+								Name:  "General",
+								Value: "general",
+							},
+							{
+								Name:  "Team",
+								Value: "team",
+							},
+							{
+								Name:  "Manage",
+								Value: "manage",
+							},
+							{
+								Name:  "Username",
+								Value: "username",
+							},
+						},
+						Required: false,
 					},
 				},
 			},
