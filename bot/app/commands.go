@@ -342,10 +342,9 @@ func (a *App) GetFeatures() []*scm.Feature {
 								Required:    true,
 							},
 							{
-								Type:         discordgo.ApplicationCommandOptionString,
-								Name:         "region",
-								Description:  "The team's region: EU, NA.",
-								Autocomplete: true,
+								Type:        discordgo.ApplicationCommandOptionString,
+								Name:        "region",
+								Description: "The team's region: EU, NA.",
 								Choices: []*discordgo.ApplicationCommandOptionChoice{
 									{
 										Name:  "EU",
@@ -359,10 +358,9 @@ func (a *App) GetFeatures() []*scm.Feature {
 								Required: true,
 							},
 							{
-								Type:         discordgo.ApplicationCommandOptionString,
-								Name:         "game",
-								Description:  "The game your team plays.",
-								Autocomplete: true,
+								Type:        discordgo.ApplicationCommandOptionString,
+								Name:        "game",
+								Description: "The game your team plays.",
 								Choices: []*discordgo.ApplicationCommandOptionChoice{
 									{
 										Name:  "Valorant",
@@ -376,10 +374,9 @@ func (a *App) GetFeatures() []*scm.Feature {
 								Required: true,
 							},
 							{
-								Type:         discordgo.ApplicationCommandOptionString,
-								Name:         "sex",
-								Description:  "The team's sex: Male, Female, Mixed.",
-								Autocomplete: true,
+								Type:        discordgo.ApplicationCommandOptionString,
+								Name:        "sex",
+								Description: "The team's sex: Male, Female, Mixed.",
 								Choices: []*discordgo.ApplicationCommandOptionChoice{
 									{
 										Name:  "Male",
@@ -449,7 +446,7 @@ func (a *App) TeamRouter(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	case "leave":
 		a.TeamLeave(s, i, o)
 	default:
-		a.RespondWithError(i, "That is not a subcommand")
+		a.RespondWithError(i, "That is not a subcommand.")
 	}
 }
 
