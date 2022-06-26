@@ -13,7 +13,7 @@ func (a *App) UsernameProjectNu(
 	options []*discordgo.ApplicationCommandInteractionDataOption,
 ) {
 	if !validators.ValidateUsername(options[0].StringValue()) {
-		a.RespondWithError(i, responses.ValidationURL)
+		a.RespondWithError(i, responses.ValidationUsername)
 		return
 	}
 
@@ -32,7 +32,7 @@ func (a *App) UsernameValorant(
 	options []*discordgo.ApplicationCommandInteractionDataOption,
 ) {
 	if !validators.ValidateUsername(options[0].StringValue()) {
-		a.RespondWithError(i, responses.ValidationURL)
+		a.RespondWithError(i, responses.ValidationUsername)
 		return
 	}
 
@@ -51,7 +51,7 @@ func (a *App) UsernameApex(
 	options []*discordgo.ApplicationCommandInteractionDataOption,
 ) {
 	if !validators.ValidateUsername(options[0].StringValue()) {
-		a.RespondWithError(i, responses.ValidationURL)
+		a.RespondWithError(i, responses.ValidationUsername)
 		return
 	}
 
