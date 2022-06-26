@@ -7,9 +7,11 @@ import (
 	"hushclan.com/pkg/utils"
 )
 
-func (a *App) RemoveMemberSub(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	options := i.ApplicationCommandData().Options
-
+func (a *App) ManageRemoveSub(
+	s *discordgo.Session,
+	i *discordgo.InteractionCreate,
+	options []*discordgo.ApplicationCommandInteractionDataOption,
+) {
 	team, err := a.Database.GetTeamByOwner(i.Member.User.ID)
 	if err != nil {
 		a.RespondWithError(i, responses.ForbiddenNotOwner)

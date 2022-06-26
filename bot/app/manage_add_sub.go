@@ -8,9 +8,11 @@ import (
 	"hushclan.com/pkg/validators"
 )
 
-func (a *App) MakeMemberSub(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	options := i.ApplicationCommandData().Options
-
+func (a *App) ManageAddSub(
+	s *discordgo.Session,
+	i *discordgo.InteractionCreate,
+	options []*discordgo.ApplicationCommandInteractionDataOption,
+) {
 	team, err := a.Database.GetTeamByOwner(i.Member.User.ID)
 	if err != nil {
 		a.RespondWithError(i, responses.ForbiddenNotOwner)

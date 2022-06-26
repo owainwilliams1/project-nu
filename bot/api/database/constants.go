@@ -7,3 +7,11 @@ const (
 	Substitute MemberType = "substitute"
 	Coach      MemberType = "coach"
 )
+
+type UsernameType string
+
+const (
+	ProjectNu   UsernameType = "project-nu"
+	Valorant    UsernameType = "valorant"
+	ApexLegends UsernameType = "apex-legends"
+)

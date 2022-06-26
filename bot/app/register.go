@@ -7,6 +7,8 @@ import (
 )
 
 func (a *App) Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	options := i.ApplicationCommandData().Options
+
 	_, err := a.Database.GetMember(i.Member.User.ID)
 	if err == nil {
 		a.RespondWithError(i, responses.ForbiddenAlreadyRegistered)
@@ -15,6 +17,7 @@ func (a *App) Register(s *discordgo.Session, i *discordgo.InteractionCreate) {
 
 	member := &types.Member{
 		MemberID: i.Member.User.ID,
+		Username: options[0].StringValue(),
 	}
 
 	err = a.Database.CreateMember(member)

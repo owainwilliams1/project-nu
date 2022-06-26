@@ -5,7 +5,11 @@ import (
 	"hushclan.com/pkg/responses"
 )
 
-func (a *App) DeleteTeam(s *discordgo.Session, i *discordgo.InteractionCreate) {
+func (a *App) ManageDelete(
+	s *discordgo.Session,
+	i *discordgo.InteractionCreate,
+	options []*discordgo.ApplicationCommandInteractionDataOption,
+) {
 	team, err := a.Database.GetTeamByOwner(i.Member.User.ID)
 	if err != nil {
 		a.RespondWithError(i, responses.ForbiddenNotOwner)

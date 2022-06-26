@@ -6,9 +6,11 @@ import (
 	"hushclan.com/pkg/validators"
 )
 
-func (a *App) SetTeamIcon(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	options := i.ApplicationCommandData().Options
-
+func (a *App) ManageSetIcon(
+	s *discordgo.Session,
+	i *discordgo.InteractionCreate,
+	options []*discordgo.ApplicationCommandInteractionDataOption,
+) {
 	if !validators.ValidateURL(options[0].StringValue()) {
 		a.RespondWithError(i, responses.ValidationURL)
 		return

@@ -30,7 +30,6 @@ const (
 	Unexpected                    Failure = "An unexpected error has occured, please try again later. If the issue persists, please contact a developer."
 	ValidationTeamName            Failure = "Team names must only contain letters and spaces. They cannot be longer than 24 characters."
 	ValidationHex                 Failure = "`%s` is not a valid hex code. A hex code looks like `#00ff66`."
-	ValidationSex                 Failure = "`%s` is not a valid sex. Choose from `male/female/mixed`."
-	ValidationRegion              Failure = "`%s` is not a valid region. Choose from `eu/na`."
 	ValidationURL                 Failure = "That is not a valid URL."
+	ValidationUsername            Failure = "Your username cannot be longer than 32 characters."
 )

@@ -24,18 +24,6 @@ func (a *App) TeamCreate(
 		return
 	}
 
-	region, ok := validators.ValidateRegion(options[2].StringValue())
-	if !ok {
-		a.RespondWithError(i, responses.ValidationRegion, options[2].StringValue())
-		return
-	}
-
-	sex, ok := validators.ValidateSex(options[3].StringValue())
-	if !ok {
-		a.RespondWithError(i, responses.ValidationSex, options[3].StringValue())
-		return
-	}
-
 	member, err := a.Database.GetMember(i.Member.User.ID)
 	if err != nil {
 		a.RespondWithError(i, responses.RequireRegistration)
@@ -52,9 +40,9 @@ func (a *App) TeamCreate(
 		TeamID:   utils.NameToID(options[0].StringValue()),
 		TeamName: options[0].StringValue(),
 		Color:    color,
-		Game:     "Valorant",
-		Sex:      sex,
-		Region:   region,
+		Region:   options[2].StringValue(),
+		Sex:      options[3].StringValue(),
+		Game:     options[4].StringValue(),
 	}
 	err = a.Database.CreateTeam(team)
 	if err != nil {

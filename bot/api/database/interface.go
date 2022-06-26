@@ -28,8 +28,7 @@ func (d *Database) DeleteTeam(teamName string) (err error) {
 	team, err := d.GetTeam(teamName)
 
 	for _, member := range team.Members {
-		err = d.RemoveMemberTeam(member)
-		return
+		_ = d.RemoveMemberTeam(member)
 	}
 
 	_, err = d.client.
@@ -386,6 +385,38 @@ func (d *Database) TransferOwnership(teamName, newOwner string) (err error) {
 				Value: newOwner,
 			},
 		})
+
+	return
+}
+
+func (d *Database) SetUsername(memberID string, username string, usernameType UsernameType) (err error) {
+	memberDoc := d.client.
+		Collection("teams").
+		Doc(memberID)
+
+	switch usernameType {
+	case "project-nu":
+		_, err = memberDoc.Update(d.ctx, []firestore.Update{
+			{
+				Path:  "username",
+				Value: username,
+			},
+		})
+	case "valorant":
+		_, err = memberDoc.Update(d.ctx, []firestore.Update{
+			{
+				Path:  "valorant_username",
+				Value: username,
+			},
+		})
+	case "apex-legends":
+		_, err = memberDoc.Update(d.ctx, []firestore.Update{
+			{
+				Path:  "apex_username",
+				Value: username,
+			},
+		})
+	}
 
 	return
 }
