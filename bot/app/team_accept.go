@@ -6,9 +6,11 @@ import (
 	"hushclan.com/pkg/utils"
 )
 
-func (a *App) AcceptInvite(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	options := i.ApplicationCommandData().Options
-
+func (a *App) TeamAccept(
+	s *discordgo.Session,
+	i *discordgo.InteractionCreate,
+	options []*discordgo.ApplicationCommandInteractionDataOption,
+) {
 	member, err := a.Database.GetMember(i.Member.User.ID)
 	if err != nil {
 		a.RespondWithError(i, responses.RequireRegistration)

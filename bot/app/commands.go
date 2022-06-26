@@ -5,42 +5,65 @@ import (
 	scm "github.com/ethanent/discordgo-scm"
 )
 
-func (a *App) GetFeatures() []*scm.Feature {
+// register
+// member		username	user
+//							valorant
+//							apex
+// team 		create
+// 				info
+//				accept
+//				leave
+//
+// manage 		delete
+// 				transfer
+//				icon
+//				invite
+//				add			player
+//							sub
+//							coach
+//				remove		player
+//							sub
+//							coach
+//				kick
+// leaderboard
+// help
+
+func (a *App) GetFeaturesOld() []*scm.Feature {
 	return []*scm.Feature{
-		{
-			Type:    discordgo.InteractionApplicationCommand,
-			Handler: a.CreateTeam,
-			ApplicationCommand: &discordgo.ApplicationCommand{
-				Name:        "create-team",
-				Description: "Create a team. You must have a team manager role to do this.",
-				Options: []*discordgo.ApplicationCommandOption{
-					{
-						Type:        discordgo.ApplicationCommandOptionString,
-						Name:        "name",
-						Description: "The name of your team.",
-						Required:    true,
-					},
-					{
-						Type:        discordgo.ApplicationCommandOptionString,
-						Name:        "color",
-						Description: "A hex color code for the team.",
-						Required:    true,
-					},
-					{
-						Type:        discordgo.ApplicationCommandOptionString,
-						Name:        "region",
-						Description: "The team's region: EU, NA.",
-						Required:    true,
-					},
-					{
-						Type:        discordgo.ApplicationCommandOptionString,
-						Name:        "sex",
-						Description: "The team's sex: Male, Female, Mixed.",
-						Required:    true,
-					},
-				},
-			},
-		},
+		// {
+		// 	Type:    discordgo.InteractionApplicationCommand,
+		// 	Handler: a.CreateTeam,
+		// 	ApplicationCommand: &discordgo.ApplicationCommand{
+		// 		Name:        "create-team",
+		// 		Description: "Create a team. You must have a team manager role to do this.",
+		// 		Options: []*discordgo.ApplicationCommandOption{
+		// 			{
+		// 				Type:        discordgo.ApplicationCommandOptionString,
+		// 				Name:        "name",
+		// 				Description: "The name of your team.",
+		// 				Required:    true,
+		// 			},
+		// 			{
+		// 				Type:        discordgo.ApplicationCommandOptionString,
+		// 				Name:        "color",
+		// 				Description: "A hex color code for the team.",
+		// 				Required:    true,
+		// 			},
+		// 			{
+		// 				Type:        discordgo.ApplicationCommandOptionString,
+		// 				Name:        "region",
+		// 				Description: "The team's region: EU, NA.",
+		// 				Required:    true,
+		// 			},
+		// 			{
+		// 				Type:        discordgo.ApplicationCommandOptionString,
+		// 				Name:        "sex",
+		// 				Description: "The team's sex: Male, Female, Mixed.",
+		// 				Required:    true,
+		// 			},
+		// 		},
+		// 	},
+		// },
 		{
 			Type:    discordgo.InteractionApplicationCommand,
 			Handler: a.DeleteTeam,
@@ -81,46 +104,46 @@ func (a *App) GetFeatures() []*scm.Feature {
 				},
 			},
 		},
-		{
-			Type:    discordgo.InteractionApplicationCommand,
-			Handler: a.AcceptInvite,
-			ApplicationCommand: &discordgo.ApplicationCommand{
-				Name:        "accept-invite",
-				Description: "Accept an invite to a team. You must not be in a team to do this.",
-				Options: []*discordgo.ApplicationCommandOption{
-					{
-						Type:        discordgo.ApplicationCommandOptionString,
-						Name:        "team-id",
-						Description: "The ID of the team you wish to join.",
-						Required:    true,
-					},
-				},
-			},
-		},
-		{
-			Type:    discordgo.InteractionApplicationCommand,
-			Handler: a.Leave,
-			ApplicationCommand: &discordgo.ApplicationCommand{
-				Name:        "leave",
-				Description: "Leave your team. You must be in a team to do this.",
-			},
-		},
-		{
-			Type:    discordgo.InteractionApplicationCommand,
-			Handler: a.Team,
-			ApplicationCommand: &discordgo.ApplicationCommand{
-				Name:        "team",
-				Description: "Get your team's info or another team's.",
-				Options: []*discordgo.ApplicationCommandOption{
-					{
-						Type:        discordgo.ApplicationCommandOptionString,
-						Name:        "team-name",
-						Description: "The name of the team you would like to view.",
-						Required:    false,
-					},
-				},
-			},
-		},
+		// {
+		// 	Type:    discordgo.InteractionApplicationCommand,
+		// 	Handler: a.AcceptInvite,
+		// 	ApplicationCommand: &discordgo.ApplicationCommand{
+		// 		Name:        "accept-invite",
+		// 		Description: "Accept an invite to a team. You must not be in a team to do this.",
+		// 		Options: []*discordgo.ApplicationCommandOption{
+		// 			{
+		// 				Type:        discordgo.ApplicationCommandOptionString,
+		// 				Name:        "team-id",
+		// 				Description: "The ID of the team you wish to join.",
+		// 				Required:    true,
+		// 			},
+		// 		},
+		// 	},
+		// },
+		// {
+		// 	Type:    discordgo.InteractionApplicationCommand,
+		// 	Handler: a.Leave,
+		// 	ApplicationCommand: &discordgo.ApplicationCommand{
+		// 		Name:        "leave",
+		// 		Description: "Leave your team. You must be in a team to do this.",
+		// 	},
+		// },
+		// {
+		// 	Type:    discordgo.InteractionApplicationCommand,
+		// 	Handler: a.Team,
+		// 	ApplicationCommand: &discordgo.ApplicationCommand{
+		// 		Name:        "team",
+		// 		Description: "Get your team's info or another team's.",
+		// 		Options: []*discordgo.ApplicationCommandOption{
+		// 			{
+		// 				Type:        discordgo.ApplicationCommandOptionString,
+		// 				Name:        "team-name",
+		// 				Description: "The name of the team you would like to view.",
+		// 				Required:    false,
+		// 			},
+		// 		},
+		// 	},
+		// },
 		{
 			Type:    discordgo.InteractionApplicationCommand,
 			Handler: a.Leaderboard,
@@ -289,6 +312,144 @@ func (a *App) GetFeatures() []*scm.Feature {
 				},
 			},
 		},
+	}
+}
+
+func (a *App) GetFeatures() []*scm.Feature {
+	return []*scm.Feature{
+		{
+			Type:    discordgo.InteractionApplicationCommand,
+			Handler: a.TeamRouter,
+			ApplicationCommand: &discordgo.ApplicationCommand{
+				Name:        "team",
+				Description: "Team commands.",
+				Options: []*discordgo.ApplicationCommandOption{
+					{
+						Type:        discordgo.ApplicationCommandOptionSubCommand,
+						Name:        "create",
+						Description: "Create a team",
+						Options: []*discordgo.ApplicationCommandOption{
+							{
+								Type:        discordgo.ApplicationCommandOptionString,
+								Name:        "name",
+								Description: "The name of your team.",
+								Required:    true,
+							},
+							{
+								Type:        discordgo.ApplicationCommandOptionString,
+								Name:        "color",
+								Description: "A hex color code for the team.",
+								Required:    true,
+							},
+							{
+								Type:         discordgo.ApplicationCommandOptionString,
+								Name:         "region",
+								Description:  "The team's region: EU, NA.",
+								Autocomplete: true,
+								Choices: []*discordgo.ApplicationCommandOptionChoice{
+									{
+										Name:  "EU",
+										Value: "eu",
+									},
+									{
+										Name:  "NA",
+										Value: "na",
+									},
+								},
+								Required: true,
+							},
+							{
+								Type:         discordgo.ApplicationCommandOptionString,
+								Name:         "game",
+								Description:  "The game your team plays.",
+								Autocomplete: true,
+								Choices: []*discordgo.ApplicationCommandOptionChoice{
+									{
+										Name:  "Valorant",
+										Value: "valorant",
+									},
+									{
+										Name:  "Apex Legends",
+										Value: "apex",
+									},
+								},
+								Required: true,
+							},
+							{
+								Type:         discordgo.ApplicationCommandOptionString,
+								Name:         "sex",
+								Description:  "The team's sex: Male, Female, Mixed.",
+								Autocomplete: true,
+								Choices: []*discordgo.ApplicationCommandOptionChoice{
+									{
+										Name:  "Male",
+										Value: "male",
+									},
+									{
+										Name:  "Female",
+										Value: "female",
+									},
+									{
+										Name:  "Mixed",
+										Value: "mixed",
+									},
+								},
+								Required: true,
+							},
+						},
+					},
+					{
+						Type:        discordgo.ApplicationCommandOptionSubCommand,
+						Name:        "info",
+						Description: "Get your team's info or another team's.",
+						Options: []*discordgo.ApplicationCommandOption{
+							{
+								Type:        discordgo.ApplicationCommandOptionString,
+								Name:        "team-name",
+								Description: "The name of the team you wish to view.",
+								Required:    false,
+							},
+						},
+					},
+					{
+						Type:        discordgo.ApplicationCommandOptionSubCommand,
+						Name:        "accept",
+						Description: "Accept an invite to a team. You must not be in a team to do this.",
+						Options: []*discordgo.ApplicationCommandOption{
+							{
+								Type:        discordgo.ApplicationCommandOptionString,
+								Name:        "team-id",
+								Description: "The ID of the team you wish to join.",
+								Required:    false,
+							},
+						},
+					},
+					{
+						Type:        discordgo.ApplicationCommandOptionSubCommand,
+						Name:        "leave",
+						Description: "Leave your team.",
+					},
+				},
+			},
+		},
+	}
+}
+
+func (a *App) TeamRouter(s *discordgo.Session, i *discordgo.InteractionCreate) {
+	options := i.ApplicationCommandData().Options
+	subcommand := options[0].StringValue()
+	o := options[1:]
+	switch subcommand {
+	case "create":
+		a.TeamCreate(s, i, o)
+	case "info":
+		a.TeamInfo(s, i, o)
+	case "accept":
+		a.TeamAccept(s, i, o)
+	case "leave":
+		a.TeamLeave(s, i, o)
+	default:
+		a.RespondWithError(i, "That is not a subcommand")
 	}
 }
 

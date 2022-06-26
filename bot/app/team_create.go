@@ -8,9 +8,11 @@ import (
 	"hushclan.com/types"
 )
 
-func (a *App) CreateTeam(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	options := i.ApplicationCommandData().Options
-
+func (a *App) TeamCreate(
+	s *discordgo.Session,
+	i *discordgo.InteractionCreate,
+	options []*discordgo.ApplicationCommandInteractionDataOption,
+) {
 	if !validators.ValidateTeamName(options[0].StringValue()) {
 		a.RespondWithError(i, responses.ValidationTeamName)
 		return

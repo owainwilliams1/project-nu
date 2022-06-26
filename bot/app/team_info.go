@@ -6,9 +6,11 @@ import (
 	"hushclan.com/pkg/utils"
 )
 
-func (a *App) Team(s *discordgo.Session, i *discordgo.InteractionCreate) {
-	options := i.ApplicationCommandData().Options
-
+func (a *App) TeamInfo(
+	s *discordgo.Session,
+	i *discordgo.InteractionCreate,
+	options []*discordgo.ApplicationCommandInteractionDataOption,
+) {
 	if len(options) > 0 {
 		teamID := utils.NameToID(options[0].StringValue())
 		team, err := a.Database.GetTeam(teamID)

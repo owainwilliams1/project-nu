@@ -5,7 +5,11 @@ import (
 	"hushclan.com/pkg/responses"
 )
 
-func (a *App) Leave(s *discordgo.Session, i *discordgo.InteractionCreate) {
+func (a *App) TeamLeave(
+	s *discordgo.Session,
+	i *discordgo.InteractionCreate,
+	options []*discordgo.ApplicationCommandInteractionDataOption,
+) {
 	member, err := a.Database.GetMember(i.Member.User.ID)
 	if err != nil || member.Team == "" {
 		a.RespondWithError(i, responses.ForbiddenNotMember)
