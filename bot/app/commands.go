@@ -303,7 +303,7 @@ func (a *App) GetFeatures() []*scm.Feature {
 		},
 		{
 			Type:    discordgo.InteractionApplicationCommand,
-			Handler: a.ManageRouter,
+			Handler: a.UsernameRouter,
 			ApplicationCommand: &discordgo.ApplicationCommand{
 				Name:        "username",
 				Description: "Change your username.",
