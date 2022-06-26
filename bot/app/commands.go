@@ -1,8 +1,6 @@
 package app
 
 import (
-	"log"
-
 	"github.com/bwmarrin/discordgo"
 	scm "github.com/ethanent/discordgo-scm"
 )
@@ -436,21 +434,20 @@ func (a *App) GetFeatures() []*scm.Feature {
 
 func (a *App) TeamRouter(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	options := i.ApplicationCommandData().Options
-	subcommand := options[0]
-	log.Print(subcommand)
-	// o := options[1:]
-	// switch subcommand {
-	// case "create":
-	// 	a.TeamCreate(s, i, o)
-	// case "info":
-	// 	a.TeamInfo(s, i, o)
-	// case "accept":
-	// 	a.TeamAccept(s, i, o)
-	// case "leave":
-	// 	a.TeamLeave(s, i, o)
-	// default:
-	// 	a.RespondWithError(i, "That is not a subcommand.")
-	// }
+	subcommand := options[0].Name
+	o := options[1:]
+	switch subcommand {
+	case "create":
+		a.TeamCreate(s, i, o)
+	case "info":
+		a.TeamInfo(s, i, o)
+	case "accept":
+		a.TeamAccept(s, i, o)
+	case "leave":
+		a.TeamLeave(s, i, o)
+	default:
+		a.RespondWithError(i, "That is not a subcommand.")
+	}
 }
 
 func (a *App) PopulateSCM() {
