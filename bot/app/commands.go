@@ -130,7 +130,7 @@ func (a *App) GetFeatures() []*scm.Feature {
 								Type:        discordgo.ApplicationCommandOptionString,
 								Name:        "team-id",
 								Description: "The ID of the team you wish to join.",
-								Required:    false,
+								Required:    true,
 							},
 						},
 					},
