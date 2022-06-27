@@ -1,6 +1,7 @@
 package app
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -38,10 +39,14 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 	fields := []*discordgo.MessageEmbedField{}
 	for _, member := range team.Members {
 		memberType := team.GetMemberType(member)
+		discordUser, err := a.Session.User(member)
+		if err != nil {
+			return nil, errors.New("could not get discord user")
+		}
 		memberData, err := a.Database.GetMember(member)
 		if err != nil {
 			fields = append(fields, &discordgo.MessageEmbedField{
-				Name:   fmt.Sprintf("<@%s>", member),
+				Name:   discordUser.Username,
 				Value:  "**Invited**",
 				Inline: true,
 			})
@@ -50,8 +55,8 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 
 		if memberData.Team != team.TeamID {
 			fields = append(fields, &discordgo.MessageEmbedField{
-				Name:   fmt.Sprintf("<@%s>", member),
-				Value:  "**Invited**",
+				Name:   memberData.Username,
+				Value:  "*Invited*",
 				Inline: true,
 			})
 			continue
@@ -59,7 +64,7 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 
 		if len(memberType) > 0 {
 			fields = append(fields, &discordgo.MessageEmbedField{
-				Name:   fmt.Sprintf("<@%s>", member),
+				Name:   memberData.Username,
 				Value:  strings.Join(memberType, "\n"),
 				Inline: true,
 			})
@@ -67,7 +72,7 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 		}
 
 		fields = append(fields, &discordgo.MessageEmbedField{
-			Name:   fmt.Sprintf("<@%s>", member),
+			Name:   memberData.Username,
 			Value:  "Member",
 			Inline: true,
 		})
