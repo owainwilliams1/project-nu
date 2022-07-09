@@ -10,7 +10,7 @@ const (
 	ForbiddenNotOwner             Failure = "You do not manage a team."
 	ForbiddenAlreadyInvited       Failure = "User <@%s> has already been invited to the team."
 	ForbiddenNotMember            Failure = "You are not in a team."
-	ForbiddenOwnerAction          Failure = "Please transfer ownership first with `/transfer-owner` or delete your team with `/delete-team`."
+	ForbiddenOwnerAction          Failure = "Please transfer ownership first with `/manage transfer-ownership` or delete your team with `/manage delete`."
 	ForbiddenUserNotMember        Failure = "Member is not in your team."
 	ForbiddenMaxCoaches           Failure = "You have the maximum number of `1` coaches."
 	ForbiddenMaxPlayers           Failure = "You have the maximum number of `5` players."
