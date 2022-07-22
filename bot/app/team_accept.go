@@ -25,7 +25,7 @@ func (a *App) TeamAccept(
 	teamID := utils.NameToID(options[0].StringValue())
 	team, err := a.Database.GetTeam(teamID)
 	if err != nil {
-		a.RespondWithError(i, responses.NotFoundTeam, team.TeamID)
+		a.RespondWithError(i, responses.NotFoundTeam, options[0].StringValue())
 		return
 	}
 

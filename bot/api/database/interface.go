@@ -215,22 +215,6 @@ func (d *Database) RemoveTeamMember(teamName string, memberID string) (err error
 }
 
 func (d *Database) AddMemberTeam(memberID string, teamID string) (err error) {
-	memberDoc, err := d.client.
-		Collection("members").
-		Doc(memberID).
-		Get(d.ctx)
-
-	if err != nil {
-		return
-	}
-
-	member := types.Member{}
-	err = memberDoc.DataTo(&member)
-
-	if err != nil {
-		return
-	}
-
 	_, err = d.client.
 		Collection("members").
 		Doc(memberID).
@@ -245,22 +229,6 @@ func (d *Database) AddMemberTeam(memberID string, teamID string) (err error) {
 }
 
 func (d *Database) RemoveMemberTeam(memberID string) (err error) {
-	memberDoc, err := d.client.
-		Collection("teams").
-		Doc(memberID).
-		Get(d.ctx)
-
-	if err != nil {
-		return
-	}
-
-	member := types.Member{}
-	err = memberDoc.DataTo(&member)
-
-	if err != nil {
-		return
-	}
-
 	_, err = d.client.
 		Collection("members").
 		Doc(memberID).
