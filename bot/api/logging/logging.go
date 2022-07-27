@@ -17,7 +17,7 @@ func (l *Log) Info(m string) {
 
 func (l *Log) Error(m string, e error) {
 	lg := l.Logger.StandardLogger(glogger.Error)
-	o := fmt.Sprintf("%s: %e", m, e)
+	o := fmt.Sprintf("%s: %s", m, e.Error())
 	lg.Println(o)
 }
 
@@ -25,7 +25,7 @@ func (l *Log) Critical(m string, e error) {
 	lg := l.Logger.StandardLogger(glogger.Critical)
 
 	if e != nil {
-		o := fmt.Sprintf("%s: %e", m, e)
+		o := fmt.Sprintf("%s: %s", m, e.Error())
 		lg.Println(o)
 		return
 	}
