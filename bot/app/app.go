@@ -1,12 +1,12 @@
 package app
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
 	scm "github.com/ethanent/discordgo-scm"
+	"hushclan.com/api/database"
 	api "hushclan.com/api/database"
 	"hushclan.com/api/logging"
 	"hushclan.com/pkg/responses"
@@ -36,49 +36,92 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 		Description: strings.Title(strings.Join([]string{team.Game, team.Sex, team.Region}, " ")),
 	}
 
-	fields := []*discordgo.MessageEmbedField{}
+	players := []string{}
+	substitutes := []string{}
+	coaches := []string{}
+	invited := []string{}
+	unassigned := []string{}
+
 	for _, member := range team.Members {
 		memberType := team.GetMemberType(member)
-		discordUser, err := a.Session.User(member)
-		if err != nil {
-			return nil, errors.New("could not get discord user")
-		}
+		assigned := false
+
 		memberData, err := a.Database.GetMember(member)
 		if err != nil {
-			fields = append(fields, &discordgo.MessageEmbedField{
-				Name:   discordUser.Username,
-				Value:  "**Invited**",
-				Inline: true,
-			})
-			continue
+			assigned = true
+			invited = append(invited, memberData.MemberID)
 		}
 
 		if memberData.Team != team.TeamID {
-			fields = append(fields, &discordgo.MessageEmbedField{
-				Name:   memberData.Username,
-				Value:  "*Invited*",
-				Inline: true,
-			})
-			continue
+			assigned = true
+			invited = append(invited, memberData.MemberID)
 		}
 
-		if len(memberType) > 0 {
-			fields = append(fields, &discordgo.MessageEmbedField{
-				Name:   memberData.Username,
-				Value:  strings.Join(memberType, "\n"),
-				Inline: true,
-			})
-			continue
+		if utils.ContainsString(memberType, string(database.Player)) {
+			assigned = true
+			players = append(players, memberData.MemberID)
 		}
 
-		fields = append(fields, &discordgo.MessageEmbedField{
-			Name:   memberData.Username,
-			Value:  "Member",
-			Inline: true,
+		if utils.ContainsString(memberType, string(database.Substitute)) {
+			assigned = true
+			substitutes = append(substitutes, memberData.MemberID)
+		}
+
+		if utils.ContainsString(memberType, string(database.Coach)) {
+			assigned = true
+			coaches = append(coaches, memberData.MemberID)
+		}
+
+		if !assigned && memberData.MemberID != team.OwnerID {
+			unassigned = append(unassigned, memberData.MemberID)
+		}
+	}
+
+	embed.Fields = append(embed.Fields, &discordgo.MessageEmbedField{
+		Name:  "Manager",
+		Value: fmt.Sprintf("<@%s>", team.OwnerID),
+	})
+
+	if len(players) > 0 {
+		mentions := "<@" + strings.Join(players, ">\n<@") + ">"
+		embed.Fields = append(embed.Fields, &discordgo.MessageEmbedField{
+			Name:  "Players",
+			Value: mentions,
 		})
 	}
 
-	embed.Fields = fields
+	if len(substitutes) > 0 {
+		mentions := "<@" + strings.Join(substitutes, ">\n<@") + ">"
+		embed.Fields = append(embed.Fields, &discordgo.MessageEmbedField{
+			Name:  "Substitutes",
+			Value: mentions,
+		})
+	}
+
+	if len(coaches) > 0 {
+		mentions := "<@" + strings.Join(coaches, ">\n<@") + ">"
+		embed.Fields = append(embed.Fields, &discordgo.MessageEmbedField{
+			Name:  "Coaches",
+			Value: mentions,
+		})
+	}
+
+	if len(unassigned) > 0 {
+		mentions := "<@" + strings.Join(unassigned, ">\n<@") + ">"
+		mentions += "\nYou can assign these members with `/manage add`"
+		embed.Fields = append(embed.Fields, &discordgo.MessageEmbedField{
+			Name:  "Unassigned",
+			Value: mentions,
+		})
+	}
+
+	if len(invited) > 0 {
+		mentions := "<@" + strings.Join(invited, ">\n<@") + ">"
+		embed.Fields = append(embed.Fields, &discordgo.MessageEmbedField{
+			Name:  "Invited",
+			Value: mentions,
+		})
+	}
 
 	if team.Icon != "" {
 		embed.Thumbnail = &discordgo.MessageEmbedThumbnail{
