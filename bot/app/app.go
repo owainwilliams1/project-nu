@@ -6,7 +6,6 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	scm "github.com/ethanent/discordgo-scm"
-	"hushclan.com/api/database"
 	api "hushclan.com/api/database"
 	"hushclan.com/api/logging"
 	"hushclan.com/pkg/responses"
@@ -49,31 +48,31 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 		memberData, err := a.Database.GetMember(member)
 		if err != nil {
 			assigned = true
-			invited = append(invited, memberData.MemberID)
+			invited = append(invited, member)
 		}
 
 		if memberData.Team != team.TeamID {
 			assigned = true
-			invited = append(invited, memberData.MemberID)
+			invited = append(invited, member)
 		}
 
-		if utils.ContainsString(memberType, string(database.Player)) {
+		if utils.ContainsString(memberType, "Player") {
 			assigned = true
-			players = append(players, memberData.MemberID)
+			players = append(players, member)
 		}
 
-		if utils.ContainsString(memberType, string(database.Substitute)) {
+		if utils.ContainsString(memberType, "Sub") {
 			assigned = true
-			substitutes = append(substitutes, memberData.MemberID)
+			substitutes = append(substitutes, member)
 		}
 
-		if utils.ContainsString(memberType, string(database.Coach)) {
+		if utils.ContainsString(memberType, "Coach") {
 			assigned = true
-			coaches = append(coaches, memberData.MemberID)
+			coaches = append(coaches, member)
 		}
 
-		if !assigned && memberData.MemberID != team.OwnerID {
-			unassigned = append(unassigned, memberData.MemberID)
+		if !assigned && member != team.OwnerID {
+			unassigned = append(unassigned, member)
 		}
 	}
 
