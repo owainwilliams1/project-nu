@@ -44,14 +44,16 @@ func (a *App) TeamToEmbed(team types.Team) (embed *discordgo.MessageEmbed, err e
 	for _, member := range team.Members {
 		memberType := team.GetMemberType(member)
 		assigned := false
+		invitedAcknowledged := false
 
 		memberData, err := a.Database.GetMember(member)
 		if err != nil {
 			assigned = true
+			invitedAcknowledged = true
 			invited = append(invited, member)
 		}
 
-		if memberData.Team != team.TeamID {
+		if memberData.Team != team.TeamID && !invitedAcknowledged {
 			assigned = true
 			invited = append(invited, member)
 		}
