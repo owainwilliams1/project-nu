@@ -3,6 +3,7 @@ package app
 import (
 	"github.com/bwmarrin/discordgo"
 	scm "github.com/ethanent/discordgo-scm"
+	"hushclan.com/pkg/responses"
 )
 
 // username		project-nu
@@ -415,6 +416,13 @@ func (a *App) TeamRouter(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	options := i.ApplicationCommandData().Options
 	subcommand := options[0].Name
 	args := options[0].Options
+
+	c, _ := s.Channel(i.ChannelID)
+	if c.Type != discordgo.ChannelTypeGuildText {
+		a.RespondWithError(i, responses.ForbiddenWrongChannelType)
+		return
+	}
+
 	switch subcommand {
 	case "create":
 		a.TeamCreate(s, i, args)
@@ -437,6 +445,13 @@ func (a *App) ManageRouter(s *discordgo.Session, i *discordgo.InteractionCreate)
 	options := i.ApplicationCommandData().Options
 	subcommand := options[0].Name
 	args := options[0].Options
+
+	c, _ := s.Channel(i.ChannelID)
+	if c.Type != discordgo.ChannelTypeGuildText {
+		a.RespondWithError(i, responses.ForbiddenWrongChannelType)
+		return
+	}
+
 	switch subcommand {
 	case "delete":
 		a.ManageDelete(s, i, args)
