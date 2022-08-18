@@ -417,7 +417,11 @@ func (a *App) TeamRouter(s *discordgo.Session, i *discordgo.InteractionCreate) {
 	subcommand := options[0].Name
 	args := options[0].Options
 
-	c, _ := s.Channel(i.ChannelID)
+	c, err := s.Channel(i.ChannelID)
+	if err != nil {
+		a.RespondWithError(i, responses.ForbiddenBotNoAccess)
+		return
+	}
 	if c.Type != discordgo.ChannelTypeGuildText {
 		a.RespondWithError(i, responses.ForbiddenWrongChannelType)
 		return
@@ -446,7 +450,11 @@ func (a *App) ManageRouter(s *discordgo.Session, i *discordgo.InteractionCreate)
 	subcommand := options[0].Name
 	args := options[0].Options
 
-	c, _ := s.Channel(i.ChannelID)
+	c, err := s.Channel(i.ChannelID)
+	if err != nil {
+		a.RespondWithError(i, responses.ForbiddenBotNoAccess)
+		return
+	}
 	if c.Type != discordgo.ChannelTypeGuildText {
 		a.RespondWithError(i, responses.ForbiddenWrongChannelType)
 		return

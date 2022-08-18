@@ -25,6 +25,7 @@ const (
 	ForbiddenPageOutOfRange       Failure = "The page you have selected does not exist."
 	ForbiddenUserNotJoined        Failure = "This user has not joined the team."
 	ForbiddenWrongChannelType     Failure = "Please re-run this command in a server's text channel."
+	ForbiddenBotNoAccess          Failure = "The bot does not have access to this channel."
 	NotFoundTeam                  Failure = "Team `%s` does not exist."
 	NotFoundTeams                 Failure = "There are currently no teams."
 	NotFoundUser                  Failure = "User <@%s> is not in this server."
